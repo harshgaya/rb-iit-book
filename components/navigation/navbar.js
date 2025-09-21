@@ -3,6 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { BookOpen, ShoppingCart, User } from "lucide-react";
+import PopOverProfile from "./pop-over-profile";
+import CartDrawer from "./cart-drawer";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -77,15 +79,17 @@ export default function Navbar() {
 
           {/* Right Icons */}
           <div className="flex items-center gap-4 relative">
+            <CartDrawer />
             <Link href="/cart" className="relative hover:text-yellow-400">
-              <ShoppingCart className="w-5 h-5" />
+              {/* <ShoppingCart className="w-5 h-5" />
               <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-4 h-4 text-xs flex items-center justify-center">
                 {cartCount}
-              </span>
+              </span> */}
             </Link>
-            <Link href="/profile" className="hover:text-yellow-400">
+            {/* <Link href="/profile" className="hover:text-yellow-400">
               <User className="w-5 h-5" />
-            </Link>
+            </Link> */}
+            <PopOverProfile />
 
             {/* Mobile Hamburger */}
             <button
