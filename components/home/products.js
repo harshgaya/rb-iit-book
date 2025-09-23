@@ -1,40 +1,8 @@
-"use client";
-
+import { getHomepageProducts } from "@/lib/api/api";
 import ProductTile from "../product/product-tile";
 
-const popularBooks = [
-  {
-    id: 1,
-    title: "Physics Olympiad Guide",
-    price: 499,
-    cuttedPrice: 699,
-    image: "/books/book-1.jpg",
-  },
-  {
-    id: 2,
-    title: "Chemistry for IIT",
-    price: 599,
-    cuttedPrice: 799,
-    image: "/books/book-1.jpg",
-  },
-  {
-    id: 3,
-    title: "Biology NEET Prep",
-    price: 399,
-    cuttedPrice: 599,
-    image: "/books/book-1.jpg",
-  },
-  {
-    id: 4,
-    title: "Math Olympiad Workbook",
-    price: 450,
-    cuttedPrice: 650,
-    image: "/books/book-1.jpg",
-  },
-  // add more books here
-];
-
-export default function ProductsHome() {
+export default async function ProductsHome() {
+  const popularBooks = await getHomepageProducts();
   return (
     <main className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 py-16 px-6">
       {/* Header Section */}
@@ -52,7 +20,7 @@ export default function ProductsHome() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
           {popularBooks.map((book) => (
             <div
-              key={book.id}
+              key={book._id}
               className="transform hover:scale-105 transition duration-300"
             >
               <ProductTile book={book} />

@@ -7,16 +7,17 @@ export default function ProductTile({ book }) {
       {/* Book Image */}
       <div className="relative w-full h-64">
         <Image
-          src={book.image}
+          src={book.cover_image}
           alt={book.title}
           fill
           className="object-cover"
         />
         {/* Discount Badge */}
-        {book.cuttedPrice && (
+        {book.market_price && (
           <div className="absolute top-3 left-3 bg-red-500 text-white px-2 py-1 text-xs font-semibold rounded">
             {Math.round(
-              ((book.cuttedPrice - book.price) / book.cuttedPrice) * 100
+              ((book.market_price - book.selling_price) / book.market_price) *
+                100
             )}
             % OFF
           </div>
@@ -25,17 +26,17 @@ export default function ProductTile({ book }) {
 
       {/* Book Info */}
       <div className="p-4 flex flex-col">
-        <h3 className="text-lg font-semibold text-gray-800 mb-2 line-clamp-2">
+        <h3 className="text-lg font-semibold text-gray-800 mb-2 truncate">
           {book.title}
         </h3>
 
         <div className="flex items-center gap-2 mb-4">
           <span className="text-yellow-500 font-bold text-lg">
-            ₹{book.price}
+            ₹{book.selling_price}
           </span>
           {book.cuttedPrice && (
             <span className="text-gray-400 line-through text-sm">
-              ₹{book.cuttedPrice}
+              ₹{book.market_price}
             </span>
           )}
         </div>

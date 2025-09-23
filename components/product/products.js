@@ -1,40 +1,8 @@
-"use client";
-
+import { getProducts } from "@/lib/api/api";
 import ProductTile from "./product-tile";
 
-// Dummy products data
-const products = [
-  {
-    id: 1,
-    title: "Physics Olympiad Guide",
-    price: 499,
-    cuttedPrice: 699,
-    image: "/books/book-1.jpg",
-  },
-  {
-    id: 2,
-    title: "Chemistry for IIT",
-    price: 599,
-    cuttedPrice: 799,
-    image: "/books/book-1.jpg",
-  },
-  {
-    id: 3,
-    title: "Biology NEET Prep",
-    price: 399,
-    cuttedPrice: 599,
-    image: "/books/book-1.jpg",
-  },
-  {
-    id: 4,
-    title: "Math Olympiad Workbook",
-    price: 450,
-    cuttedPrice: 650,
-    image: "/books/book-1.jpg",
-  },
-];
-
-export default function ProductsPage() {
+export default async function ProductsPage({ search }) {
+  const products = await getProducts({ search });
   return (
     <main className="min-h-screen bg-gray-50 py-12 px-4 md:px-8">
       <h1 className="text-4xl font-bold text-gray-900 mb-6 text-center">
@@ -48,7 +16,7 @@ export default function ProductsPage() {
       {/* Products Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
         {products.map((product) => (
-          <ProductTile key={product.id} book={product} />
+          <ProductTile key={product._id} book={product} />
         ))}
       </div>
     </main>

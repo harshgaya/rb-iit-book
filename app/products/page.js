@@ -1,5 +1,7 @@
 import ProductsPage from "@/components/product/products";
 
-export default function Products() {
-  return <ProductsPage />;
+export default async function Products({ searchParams }) {
+  const search = searchParams?.search || null;
+
+  return <ProductsPage search={search} />;
 }
