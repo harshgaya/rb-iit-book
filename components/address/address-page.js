@@ -4,34 +4,53 @@ import { useState } from "react";
 import { Plus } from "lucide-react";
 import AddressItem from "./address-item";
 import HeadlessUIModal from "../modal/headless-ui-modal";
+import { INDIAN_STATES } from "@/lib/utils/constants";
+import { addAddress, getUserAddress, updateAddress } from "@/lib/api/api";
+import { useRouter } from "next/navigation";
 
-export default function AddressesPage() {
-  const [addresses, setAddresses] = useState([
-    {
-      id: 1,
-      name: "Harsh Kumar",
-      street: "123, MG Road",
-      city: "Delhi",
-      state: "Delhi",
-      zip: "110001",
-      phone: "9876543210",
-    },
-    {
-      id: 2,
-      name: "John Doe",
-      street: "456, Park Street",
-      city: "Kolkata",
-      state: "West Bengal",
-      zip: "700001",
-      phone: "9876543211",
-    },
-  ]);
-
+export default function AddressesPage({ addresses }) {
   const [modalOpen, setModalOpen] = useState(false);
+  const [editingAddress, setEditingAddress] = useState(null);
+  const router = useRouter();
 
-  const handleSaveAddress = (newAddress) => {
-    setAddresses((prev) => [...prev, { id: Date.now(), ...newAddress }]);
+  const handleSaveAddress = async (newAddress) => {
+    if (editingAddress) {
+      await updateAddress({
+        update_type: "address",
+        address_id: editingAddress.address_id,
+        ...newAddress,
+      });
+      router.refresh();
+      setEditingAddress(null);
+    } else {
+      await addAddress(newAddress);
+      router.refresh();
+    }
     setModalOpen(false);
+  };
+
+  const handleEdit = (addr) => {
+    setEditingAddress(addr);
+    setModalOpen(true);
+  };
+  const handleDelete = async (addr) => {
+    var confirm = window.confirm(
+      "Are you sure you want to delete this address?"
+    );
+    if (confirm) {
+      await updateAddress({
+        update_type: "delete",
+        address_id: addr.address_id,
+      });
+      router.refresh();
+    }
+  };
+  const handleSelect = async (addr) => {
+    await updateAddress({
+      update_type: "selection",
+      address_id: addr.address_id,
+    });
+    router.refresh();
   };
 
   return (
@@ -39,7 +58,10 @@ export default function AddressesPage() {
       <div className="max-w-3xl mx-auto flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold text-gray-800">Your Addresses</h1>
         <button
-          onClick={() => setModalOpen(true)}
+          onClick={() => {
+            setEditingAddress(null);
+            setModalOpen(true);
+          }}
           className="flex items-center gap-2 bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600 transition"
         >
           <Plus className="w-5 h-5" /> Add New Address
@@ -49,33 +71,51 @@ export default function AddressesPage() {
       <div className="max-w-3xl mx-auto space-y-4">
         {addresses.map((addr) => (
           <AddressItem
-            key={addr.id}
+            key={addr.address}
             address={addr}
-            onEdit={() => alert("Edit " + addr.name)}
-            onDelete={() =>
-              setAddresses((prev) => prev.filter((a) => a.id !== addr.id))
-            }
+            selected={addr.is_selected || false}
+            onEdit={() => handleEdit(addr)}
+            onDelete={() => {
+              handleDelete(addr);
+            }}
+            onSelect={() => handleSelect(addr)}
+            // onDelete={() =>
+            //   setAddresses((prev) => prev.filter((a) => a.id !== addr.id))
+            // }
           />
         ))}
       </div>
 
-      {/* Modal using HeadlessUIModal */}
+      {/* Modal */}
       <HeadlessUIModal
         isOpen={modalOpen}
         closeModal={() => setModalOpen(false)}
-        title="Add New Address"
+        title={editingAddress ? "Edit Address" : "Add New Address"}
       >
         <form
           onSubmit={(e) => {
             e.preventDefault();
             const form = e.target;
+
+            // Basic validation
+            const phone = form.phone.value;
+            const zip = form.pincode.value;
+            if (!/^\d{10}$/.test(phone)) {
+              alert("Phone number must be 10 digits");
+              return;
+            }
+            if (!/^\d{6}$/.test(zip)) {
+              alert("Pincode code must be 6 digits");
+              return;
+            }
+
             handleSaveAddress({
               name: form.name.value,
-              street: form.street.value,
+              address: form.address.value,
               city: form.city.value,
               state: form.state.value,
-              zip: form.zip.value,
-              phone: form.phone.value,
+              pincode: form.pincode.value,
+              phone,
             });
           }}
           className="flex flex-col gap-3 text-black"
@@ -84,36 +124,56 @@ export default function AddressesPage() {
             name="name"
             placeholder="Full Name"
             required
+            defaultValue={editingAddress?.name || ""}
             className="border px-3 py-2 rounded"
           />
           <input
-            name="street"
+            name="address"
             placeholder="Street Address"
             required
+            defaultValue={editingAddress?.address || ""}
             className="border px-3 py-2 rounded"
           />
           <input
             name="city"
             placeholder="City"
             required
+            defaultValue={editingAddress?.city || ""}
             className="border px-3 py-2 rounded"
           />
-          <input
+          <select
             name="state"
-            placeholder="State"
             required
+            defaultValue={editingAddress?.state || ""}
             className="border px-3 py-2 rounded"
-          />
+          >
+            <option value="" disabled>
+              Select State
+            </option>
+            {INDIAN_STATES.map((s) => (
+              <option key={s} value={s}>
+                {s}
+              </option>
+            ))}
+          </select>
           <input
-            name="zip"
-            placeholder="ZIP Code"
+            name="pincode"
+            placeholder="PIN Code"
+            type="number"
+            maxLength={6}
             required
+            defaultValue={editingAddress?.pincode || ""}
+            onWheel={(e) => e.currentTarget.blur()}
             className="border px-3 py-2 rounded"
           />
           <input
             name="phone"
             placeholder="Phone Number"
+            type="number"
+            maxLength={10}
             required
+            onWheel={(e) => e.currentTarget.blur()}
+            defaultValue={editingAddress?.phone || ""}
             className="border px-3 py-2 rounded"
           />
           <div className="flex justify-end gap-2 mt-2">
@@ -128,7 +188,7 @@ export default function AddressesPage() {
               type="submit"
               className="px-4 py-2 rounded bg-yellow-500 text-white hover:bg-yellow-600 transition"
             >
-              Save
+              {editingAddress ? "Update" : "Save"}
             </button>
           </div>
         </form>

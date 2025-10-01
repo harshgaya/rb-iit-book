@@ -26,8 +26,6 @@ export async function middleware(req) {
 
 // Apply middleware only on relevant routes
 export const config = {
-  matcher: [
-    "/products/:path*",
-    "/", // also apply on home
-  ],
+  matcher: ["/cart/:path*"],
+  matcher: ["/address/:path*"],
 };

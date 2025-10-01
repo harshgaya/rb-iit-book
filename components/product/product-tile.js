@@ -1,7 +1,10 @@
+"use client";
 import Image from "next/image";
 import { ShoppingCart, CreditCard } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function ProductTile({ book }) {
+  const router = useRouter();
   return (
     <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition transform hover:-translate-y-1">
       {/* Book Image */}
@@ -46,7 +49,10 @@ export default function ProductTile({ book }) {
           <button className="flex-1 flex items-center justify-center gap-1 bg-gradient-to-r from-yellow-400 to-yellow-500 text-white py-2 text-sm rounded-md hover:from-yellow-500 hover:to-yellow-600 transition">
             <ShoppingCart className="w-4 h-4" /> Add
           </button>
-          <button className="flex-1 flex items-center justify-center gap-1 bg-gradient-to-r from-gray-800 to-gray-900 text-white py-2 text-sm rounded-md hover:from-gray-900 hover:to-black transition">
+          <button
+            onClick={() => router.push(`/product/${book._id}`)}
+            className="flex-1 flex items-center justify-center gap-1 bg-gradient-to-r from-gray-800 to-gray-900 text-white py-2 text-sm rounded-md hover:from-gray-900 hover:to-black transition"
+          >
             <CreditCard className="w-4 h-4" /> Buy
           </button>
         </div>
