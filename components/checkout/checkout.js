@@ -3,9 +3,13 @@
 import Image from "next/image";
 import { useState } from "react";
 import AddressesPage from "../address/address-page";
-import { getRazorpayOrderId } from "@/lib/api/api";
+import { checkPayment, getRazorpayOrderId } from "@/lib/api/api";
+import { useRouter } from "next/navigation";
 
 export default function CheckoutPage({ addresses, search }) {
+  const router = useRouter();
+  const [isPaying, setIsPaying] = useState(false);
+
   const loadRazorpayScript = () => {
     return new Promise((resolve) => {
       if (document.getElementById("razorpay-script")) return resolve(true);
@@ -19,52 +23,113 @@ export default function CheckoutPage({ addresses, search }) {
     });
   };
   const payWithRazorpay = async () => {
-    const order = await getRazorpayOrderId({
-      checkout_type: "single",
-      product_id: search.product._id,
-      quantity:
-        search.search?.qty &&
-        !isNaN(Number(search.qty)) &&
-        Number(search.qty) > 0
-          ? Number(search.qty)
-          : 1,
-    });
-    console.log("Razorpay Order:", order);
-    // order object from backend
-    // { order_id, amount, currency, customerName, customerEmail, customerPhone }
+    setIsPaying(true); // disable button
 
-    const scriptLoaded = await loadRazorpayScript();
-    if (!scriptLoaded) {
-      alert("Failed to load Razorpay SDK");
-      return;
+    try {
+      const order = await getRazorpayOrderId({
+        checkout_type: "single",
+        product_id: search.product._id,
+        quantity:
+          search.search?.qty &&
+          !isNaN(Number(search.qty)) &&
+          Number(search.qty) > 0
+            ? Number(search.qty)
+            : 1,
+      });
+      console.log("Razorpay Order:", order);
+
+      const scriptLoaded = await loadRazorpayScript();
+      if (!scriptLoaded) {
+        alert("Failed to load Razorpay SDK");
+        setIsPaying(false); // re-enable
+        return;
+      }
+
+      const options = {
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+        amount: order.amount,
+        currency: order.currency || "INR",
+        name: "RB IIT-NEET Book",
+        description: "Complete your purchase",
+        order_id: order.id,
+        handler: async function (response) {
+          const checkPaymentRes = await checkPayment({
+            razorpay_order_id: order.id,
+          });
+
+          if (checkPaymentRes && checkPaymentRes.is_payment_captured === true) {
+            router.replace("/payment-success");
+          } else {
+            router.replace("/payment-failed");
+          }
+        },
+        prefill: {
+          name: order.customerName,
+          email: order.customerEmail,
+          contact: order.customerPhone,
+        },
+        theme: { color: "#FACC15" },
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    } catch (err) {
+      console.error("Payment error:", err);
+      setIsPaying(false); // re-enable button on error
     }
-
-    const options = {
-      key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID, // Razorpay key id
-      amount: order.amount, // in paise
-      currency: order.currency || "INR",
-      name: "RB IIT-NEET Book",
-      description: "Complete your purchase",
-      order_id: order.order_id, // from backend
-      handler: function (response) {
-        // payment successful
-        console.log("Payment Success:", response);
-        // response.razorpay_payment_id
-        // response.razorpay_order_id
-        // response.razorpay_signature
-        // TODO: Send these to your backend to verify signature
-      },
-      prefill: {
-        name: order.customerName,
-        email: order.customerEmail,
-        contact: order.customerPhone,
-      },
-      theme: { color: "#FACC15" }, // yellow
-    };
-
-    const rzp = new window.Razorpay(options);
-    rzp.open();
   };
+
+  // const payWithRazorpay = async () => {
+  //   const order = await getRazorpayOrderId({
+  //     checkout_type: "single",
+  //     product_id: search.product._id,
+  //     quantity:
+  //       search.search?.qty &&
+  //       !isNaN(Number(search.qty)) &&
+  //       Number(search.qty) > 0
+  //         ? Number(search.qty)
+  //         : 1,
+  //   });
+  //   console.log("Razorpay Order:", order);
+  //   // order object from backend
+  //   // { order_id, amount, currency, customerName, customerEmail, customerPhone }
+
+  //   const scriptLoaded = await loadRazorpayScript();
+  //   if (!scriptLoaded) {
+  //     alert("Failed to load Razorpay SDK");
+  //     return;
+  //   }
+
+  //   const options = {
+  //     key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID, // Razorpay key id
+  //     amount: order.amount, // in paise
+  //     currency: order.currency || "INR",
+  //     name: "RB IIT-NEET Book",
+  //     description: "Complete your purchase",
+  //     order_id: order.id, // from backend
+  //     handler: async function (response) {
+  //       // payment successful
+  //       console.log("Payment Success:", response);
+  //       const checkPaymentRes = await checkPayment({
+  //         razorpay_order_id: order.id,
+  //       });
+  //       if (checkPaymentRes && checkPaymentRes.is_payment_captured === true) {
+  //         router.replace("/payment-success");
+  //       } else {
+  //         router.replace("/payment-failed");
+  //       }
+  //     },
+  //     prefill: {
+  //       name: order.customerName,
+  //       email: order.customerEmail,
+  //       contact: order.customerPhone,
+  //     },
+  //     theme: { color: "#FACC15" }, // yellow
+  //   };
+
+  //   const rzp = new window.Razorpay(options);
+  //   rzp.open();
+  // };
 
   const validAddresses = Array.isArray(addresses) ? addresses : [];
   const qty =
@@ -227,14 +292,20 @@ export default function CheckoutPage({ addresses, search }) {
 
           {/* Place Order */}
           <button
-            className="mt-6 w-full bg-yellow-500 text-white py-3 rounded-md hover:bg-yellow-600 transition text-lg font-semibold"
+            className={`mt-6 w-full py-3 rounded-md text-lg font-semibold transition
+    ${
+      isPaying
+        ? "bg-gray-400 cursor-not-allowed"
+        : "bg-yellow-500 hover:bg-yellow-600 text-white"
+    }`}
             onClick={() => {
-              if (paymentMethod === "online") {
+              if (paymentMethod === "online" && !isPaying) {
                 payWithRazorpay();
               }
             }}
+            disabled={isPaying} // disables the button
           >
-            Place Order
+            {isPaying ? "Processing..." : "Place Order"}
           </button>
         </div>
       </div>

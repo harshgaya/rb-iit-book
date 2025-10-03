@@ -16,7 +16,7 @@ export function PaymentSuccessPage() {
           successfully.
         </p>
         <Link
-          href="/products"
+          href="/"
           className="mt-4 flex items-center gap-2 bg-yellow-500 text-white px-6 py-3 rounded-md hover:bg-yellow-600 transition font-semibold"
         >
           <ShoppingCart className="w-5 h-5" /> Keep Shopping
@@ -38,7 +38,7 @@ export function PaymentFailedPage() {
           If any amount was deducted, it will be refunded to your account.
         </p>
         <Link
-          href="/products"
+          href="/"
           className="mt-4 flex items-center gap-2 bg-yellow-500 text-white px-6 py-3 rounded-md hover:bg-yellow-600 transition font-semibold"
         >
           <ShoppingCart className="w-5 h-5" /> Keep Shopping
