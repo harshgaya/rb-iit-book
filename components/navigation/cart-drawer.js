@@ -8,11 +8,15 @@ import {
 import { ShoppingCart, X, Package } from "lucide-react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useCart } from "@/context/cart-context";
 
 export default function CartDrawer({ cartItems = [] }) {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(true);
   const cartCount = cartItems.length;
+  const cart = useCart();
 
   // Detect screen size
   useEffect(() => {
@@ -34,19 +38,19 @@ export default function CartDrawer({ cartItems = [] }) {
     <>
       {/* Cart Icon Button */}
       <button
-        onClick={handleCartClick}
+        onClick={() => router.push("/cart")}
+        // onClick={handleCartClick}
         className="relative flex items-center hover:text-yellow-500"
       >
         <ShoppingCart className="w-6 h-6" />
         <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-4 h-4 text-xs flex items-center justify-center">
-          {cartCount}
+          {cart.cartItems}
         </span>
       </button>
 
-      {/* Drawer (Desktop only) */}
-      <Transition show={open}>
+      {/* <Transition show={open}>
         <Dialog onClose={() => setOpen(false)} className="relative z-50">
-          {/* Backdrop */}
+         
           <TransitionChild
             enter="transition-opacity ease-out duration-300"
             enterFrom="opacity-0"
@@ -58,7 +62,7 @@ export default function CartDrawer({ cartItems = [] }) {
             <DialogBackdrop className="fixed inset-0 bg-black/40" />
           </TransitionChild>
 
-          {/* Drawer Panel */}
+         
           <div className="fixed inset-0 flex justify-end text-black">
             <TransitionChild
               enter="transition transform ease-out duration-300"
@@ -69,7 +73,7 @@ export default function CartDrawer({ cartItems = [] }) {
               leaveTo="translate-x-full"
             >
               <DialogPanel className="w-full max-w-md bg-white shadow-xl h-full flex flex-col">
-                {/* Header */}
+               
                 <div className="flex items-center justify-between p-4 border-b">
                   <h2 className="text-lg font-semibold">Your Cart</h2>
                   <button
@@ -80,7 +84,7 @@ export default function CartDrawer({ cartItems = [] }) {
                   </button>
                 </div>
 
-                {/* Cart Content */}
+              
                 <div className="flex-1 overflow-y-auto p-4">
                   {cartCount === 0 ? (
                     <div className="flex flex-col items-center justify-center h-full text-gray-500">
@@ -115,7 +119,7 @@ export default function CartDrawer({ cartItems = [] }) {
                   )}
                 </div>
 
-                {/* Footer */}
+               
                 {cartCount > 0 && (
                   <div className="p-4 border-t">
                     <button className="w-full bg-yellow-500 text-white py-2 rounded-md hover:bg-yellow-600 transition">
@@ -127,7 +131,7 @@ export default function CartDrawer({ cartItems = [] }) {
             </TransitionChild>
           </div>
         </Dialog>
-      </Transition>
+      </Transition> */}
     </>
   );
 }

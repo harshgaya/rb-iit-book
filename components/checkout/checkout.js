@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AddressesPage from "../address/address-page";
 import { checkPayment, getRazorpayOrderId } from "@/lib/api/api";
 import { useRouter } from "next/navigation";
@@ -26,9 +26,11 @@ export default function CheckoutPage({ addresses, search }) {
     setIsPaying(true); // disable button
 
     try {
+      console.log("Initiating payment with search:", search);
       const order = await getRazorpayOrderId({
-        checkout_type: "single",
-        product_id: search.product._id,
+        checkout_type: search.type || "single",
+        product_id: search?.product?._id ?? null,
+        cart: search?.cart,
         quantity:
           search.search?.qty &&
           !isNaN(Number(search.qty)) &&
@@ -155,11 +157,11 @@ export default function CheckoutPage({ addresses, search }) {
   } else if (search?.type === "cart") {
     if (Array.isArray(search?.cart) && search.cart.length > 0) {
       cartItems = search.cart.map((item) => ({
-        id: item._id || "unknown",
-        title: item.title || "Untitled Product",
-        price: Number(item.selling_price) || 0,
+        id: item.product_id || "unknown",
+        title: item.product.name || "Untitled Product",
+        price: Number(item.product.price) || 0,
         quantity: Number(item.quantity) > 0 ? Number(item.quantity) : 1,
-        image: item.cover_image || "/books/default.jpg",
+        image: item.product.image || "/books/default.jpg",
       }));
     }
   }

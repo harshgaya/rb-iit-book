@@ -15,12 +15,12 @@ export function PaymentSuccessPage() {
           Thank you for shopping with us. Your order has been placed
           successfully.
         </p>
-        <Link
-          href="/"
+        <button
+          onClick={() => window.location.replace("/")}
           className="mt-4 flex items-center gap-2 bg-yellow-500 text-white px-6 py-3 rounded-md hover:bg-yellow-600 transition font-semibold"
         >
           <ShoppingCart className="w-5 h-5" /> Keep Shopping
-        </Link>
+        </button>
       </div>
     </main>
   );
@@ -37,12 +37,12 @@ export function PaymentFailedPage() {
           <br />
           If any amount was deducted, it will be refunded to your account.
         </p>
-        <Link
-          href="/"
+        <button
+          onClick={() => window.location.replace("/")}
           className="mt-4 flex items-center gap-2 bg-yellow-500 text-white px-6 py-3 rounded-md hover:bg-yellow-600 transition font-semibold"
         >
           <ShoppingCart className="w-5 h-5" /> Keep Shopping
-        </Link>
+        </button>
       </div>
     </main>
   );

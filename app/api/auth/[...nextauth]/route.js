@@ -1,4 +1,5 @@
 import { setUserSession } from "@/lib/utils/action";
+import { API_URL } from "@/lib/utils/constants";
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
@@ -16,7 +17,7 @@ export const authOptions = {
     async signIn({ user }) {
       try {
         // Call your API to store/fetch DB user
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/sign-in`, {
+        const res = await fetch(`${API_URL}/sign-in`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

@@ -1,46 +1,69 @@
 "use client";
 
-import { ShoppingCart, Package } from "lucide-react";
+import { Package } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import CartItem from "./cart-item";
+import { updateCart } from "@/lib/api/api";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
-export default function CartPage() {
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      title: "Physics Olympiad Guide",
-      price: 499,
-      quantity: 2,
-      image: "/books/physics.jpg",
-    },
-    {
-      id: 2,
-      title: "Chemistry for IIT",
-      price: 599,
-      quantity: 1,
-      image: "/books/chemistry.jpg",
-    },
-    {
-      id: 3,
-      title: "Biology NEET Prep",
-      price: 399,
-      quantity: 3,
-      image: "/books/biology.jpg",
-    },
-  ]);
+export default function CartPage({ cart }) {
+  const router = useRouter();
+  const [cartItems, setCartItems] = useState(cart || []);
+  const [loading, setLoading] = useState(false);
+  function checkout() {
+    Cookies.set("fromCheckoutAllowed", "true", { path: "/" });
+    router.push(` /checkout?type=cart`);
+  }
 
-  const updateQuantity = (id, newQty) => {
-    setCartItems((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, quantity: newQty } : item
-      )
-    );
+  // Update quantity API
+  const updateQuantity = async (id, action) => {
+    try {
+      setLoading(true);
+      const res = await updateCart({ product_id: id, action });
+      if (res) {
+        setCartItems(res);
+        toast.success("Cart updated!");
+      } else {
+        toast.error("Failed to update cart");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Remove item API
+  const removeItem = async (id) => {
+    try {
+      const confirmed = window.confirm(
+        "Are you sure you want to delete this item?"
+      );
+      if (!confirmed) return;
+
+      setLoading(true);
+      const res = await updateCart({ product_id: id, action: "delete" });
+      if (res) {
+        setCartItems(res);
+        toast.success("Item removed!");
+      } else {
+        toast.error("Failed to remove item");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Something went wrong");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const cartCount = cartItems.length;
   const totalPrice = cartItems.reduce(
-    (total, item) => total + item.price * item.quantity,
+    (total, item) => total + item.product.price * item.quantity,
     0
   );
 
@@ -67,9 +90,11 @@ export default function CartPage() {
           <div className="flex-1 space-y-4">
             {cartItems.map((item) => (
               <CartItem
-                key={item.id}
+                key={item.product._id}
                 item={item}
                 updateQuantity={updateQuantity}
+                removeItem={removeItem}
+                loading={loading}
               />
             ))}
           </div>
@@ -95,12 +120,12 @@ export default function CartPage() {
               </div>
             </div>
 
-            <Link
-              href="/checkout"
+            <button
+              onClick={checkout}
               className="mt-6 w-full py-3 bg-yellow-500 text-white font-semibold rounded-lg hover:bg-yellow-600 transition text-center"
             >
               Proceed to Checkout
-            </Link>
+            </button>
           </div>
         </div>
       )}

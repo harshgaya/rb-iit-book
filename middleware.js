@@ -21,11 +21,25 @@ export async function middleware(req) {
     return NextResponse.next();
   }
 
+  // ✅ Checkout route protection (must be inside middleware)
+  if (url.pathname.startsWith("/checkout")) {
+    const fromCheckoutAllowed = req.cookies.get("fromCheckoutAllowed")?.value;
+
+    if (!fromCheckoutAllowed) {
+      // Redirect to /cart
+      return NextResponse.redirect(new URL("/cart", req.url));
+    }
+
+    // Remove flag so it can't be reused
+    const res = NextResponse.next();
+    res.cookies.delete("fromCheckoutAllowed");
+    return res;
+  }
+
   return NextResponse.next();
 }
 
-// Apply middleware only on relevant routes
+// ✅ Combine matchers properly
 export const config = {
-  matcher: ["/cart/:path*"],
-  matcher: ["/address/:path*"],
+  matcher: ["/cart/:path*", "/address/:path*", "/checkout/:path*"],
 };

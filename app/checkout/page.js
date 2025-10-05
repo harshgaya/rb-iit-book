@@ -1,5 +1,5 @@
 import CheckoutPage from "@/components/checkout/checkout";
-import { getUserAddress, getProductById, getUserCart } from "@/lib/api/api";
+import { getUserAddress, getProductById, getCart } from "@/lib/api/api";
 
 export default async function Checkout({ searchParams }) {
   const address = await getUserAddress();
@@ -27,7 +27,7 @@ export default async function Checkout({ searchParams }) {
     }
   } else if (type === "cart") {
     try {
-      cart = await getUserCart();
+      cart = await getCart();
       if (!cart || cart.length === 0) {
         console.warn("Cart is empty or could not be fetched");
       }

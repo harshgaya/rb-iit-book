@@ -2,9 +2,11 @@
 import Image from "next/image";
 import { ShoppingCart, CreditCard } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useCart } from "@/context/cart-context";
 
 export default function ProductTile({ book }) {
   const router = useRouter();
+  const cart = useCart();
   return (
     <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition transform hover:-translate-y-1">
       {/* Book Image */}
@@ -46,7 +48,10 @@ export default function ProductTile({ book }) {
 
         {/* Action Buttons */}
         <div className="flex gap-2 mt-auto">
-          <button className="flex-1 flex items-center justify-center gap-1 bg-gradient-to-r from-yellow-400 to-yellow-500 text-white py-2 text-sm rounded-md hover:from-yellow-500 hover:to-yellow-600 transition">
+          <button
+            onClick={() => cart.addToCart(book._id)}
+            className="flex-1 flex items-center justify-center gap-1 bg-gradient-to-r from-yellow-400 to-yellow-500 text-white py-2 text-sm rounded-md hover:from-yellow-500 hover:to-yellow-600 transition"
+          >
             <ShoppingCart className="w-4 h-4" /> Add
           </button>
           <button

@@ -3,6 +3,7 @@ import Image from "next/image";
 import { ShoppingCart, CreditCard, Plus, Minus, Book } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 export default function Product({ book }) {
   const router = useRouter();
@@ -10,6 +11,11 @@ export default function Product({ book }) {
 
   const increaseQuantity = () => setQuantity((q) => q + 1);
   const decreaseQuantity = () => setQuantity((q) => (q > 1 ? q - 1 : 1));
+
+  function goToCheckout() {
+    Cookies.set("fromCheckoutAllowed", "true", { path: "/" }); // 👈 Add this
+    router.push(`/checkout?type=single&productId=${book._id}&qty=${quantity}`);
+  }
 
   if (!book) {
     return (
@@ -76,11 +82,7 @@ export default function Product({ book }) {
               <ShoppingCart className="w-5 h-5" /> Add to Cart
             </button>
             <button
-              onClick={() =>
-                router.push(
-                  `/checkout?type=single&productId=${book._id}&qty=${quantity}`
-                )
-              }
+              onClick={() => goToCheckout()}
               className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-gray-800 to-gray-900 text-white py-3 rounded-md hover:from-gray-900 hover:to-black transition"
             >
               <CreditCard className="w-5 h-5" /> Buy Now
