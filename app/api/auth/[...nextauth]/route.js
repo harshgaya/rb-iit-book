@@ -9,6 +9,7 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
 export const authOptions = {
+  secret: "fe51dd4501b392b42c5ec446c9287fac1b3aec6e86e4c4fb429de146b4a18bf8",
   providers: [
     GoogleProvider({
       clientId: GOOGLE_CLIENT_ID,
