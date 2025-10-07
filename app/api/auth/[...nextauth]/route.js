@@ -18,6 +18,11 @@ export const authOptions = {
   ],
   session: { strategy: "jwt" },
   pages: { signIn: "/sign-in" },
+  basePath: "/api/auth",
+  debug: true,
+  trustHost: true,
+  // 👇 Hardcode your live domain so NextAuth knows where to redirect
+  site: "https://rb-iit-book--softplix-api.asia-southeast1.hosted.app/",
 
   callbacks: {
     async signIn({ user }) {
