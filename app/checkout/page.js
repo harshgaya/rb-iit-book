@@ -1,5 +1,6 @@
 import CheckoutPage from "@/components/checkout/checkout";
 import { getUserAddress, getProductById, getCart } from "@/lib/api/api";
+export const dynamic = "force-dynamic";
 
 export default async function Checkout({ searchParams }) {
   const address = await getUserAddress();

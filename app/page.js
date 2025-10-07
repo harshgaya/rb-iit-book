@@ -4,6 +4,7 @@ import WhyRBBooksPage from "@/components/home/why-rb-books";
 import ProductsHome from "@/components/home/products";
 
 import Image from "next/image";
+export const dynamic = "force-dynamic";
 
 export default function Home() {
   return (
