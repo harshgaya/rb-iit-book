@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import AddressesPage from "../address/address-page";
 import { checkPayment, getRazorpayOrderId } from "@/lib/api/api";
 import { useRouter } from "next/navigation";
+import { NEXT_PUBLIC_RAZORPAY_KEY_ID } from "@/lib/utils/constants";
 
 export default function CheckoutPage({ addresses, search }) {
   const router = useRouter();
@@ -38,7 +39,6 @@ export default function CheckoutPage({ addresses, search }) {
             ? Number(search.qty)
             : 1,
       });
-      console.log("Razorpay Order:", order);
 
       const scriptLoaded = await loadRazorpayScript();
       if (!scriptLoaded) {
@@ -48,7 +48,7 @@ export default function CheckoutPage({ addresses, search }) {
       }
 
       const options = {
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+        key: NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: order.amount,
         currency: order.currency || "INR",
         name: "RB IIT-NEET Book",

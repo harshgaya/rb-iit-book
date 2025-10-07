@@ -1,12 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  productionBrowserSourceMaps: false,
   images: {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "**", // allow any domain
-        port: "", // optional, leave blank
-        pathname: "/**", // allow any path
+        hostname: "**",
+        port: "",
+        pathname: "/**",
       },
     ],
   },

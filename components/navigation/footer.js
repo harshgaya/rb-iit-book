@@ -1,4 +1,5 @@
 // app/components/Footer.tsx
+import { SOCIAL_LINKS } from "@/lib/utils/constants";
 import {
   Facebook,
   Twitter,
@@ -8,7 +9,6 @@ import {
   Youtube,
   MessageCircle,
 } from "lucide-react";
-import { SOCIAL_LINKS } from "@/utils/constants";
 
 export default function Footer() {
   return (
@@ -30,7 +30,7 @@ export default function Footer() {
           </div>
 
           {/* Quick Links */}
-          <div>
+          {/* <div>
             <h3 className="text-sm font-semibold text-white tracking-wider uppercase">
               Quick Links
             </h3>
@@ -56,7 +56,7 @@ export default function Footer() {
                 </a>
               </li>
             </ul>
-          </div>
+          </div> */}
 
           {/* Social */}
           <div>

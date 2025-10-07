@@ -1,11 +1,10 @@
 "use client";
 
+import { getUserSession } from "@/lib/utils/action";
 import { ShoppingCart, Package, MapPin, LogOut } from "lucide-react";
 import Link from "next/link";
 
-export default function UserProfilePage() {
-  const userName = "Harsh";
-
+export default function UserProfilePage({ name: userName }) {
   const options = [
     {
       id: 1,
@@ -23,7 +22,7 @@ export default function UserProfilePage() {
       id: 3,
       name: "Addresses",
       icon: <MapPin className="w-6 h-6 text-green-500" />,
-      href: "/addresses",
+      href: "/address",
     },
     {
       id: 4,

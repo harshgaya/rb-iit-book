@@ -7,6 +7,7 @@ import HeadlessUIModal from "../modal/headless-ui-modal";
 import { INDIAN_STATES } from "@/lib/utils/constants";
 import { addAddress, getUserAddress, updateAddress } from "@/lib/api/api";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 export default function AddressesPage({ addresses }) {
   const [modalOpen, setModalOpen] = useState(false);
@@ -20,10 +21,12 @@ export default function AddressesPage({ addresses }) {
         address_id: editingAddress.address_id,
         ...newAddress,
       });
+      Cookies.set("fromCheckoutAllowed", "true", { path: "/" });
       router.refresh();
       setEditingAddress(null);
     } else {
       await addAddress(newAddress);
+      Cookies.set("fromCheckoutAllowed", "true", { path: "/" });
       router.refresh();
     }
     setModalOpen(false);
@@ -42,6 +45,7 @@ export default function AddressesPage({ addresses }) {
         update_type: "delete",
         address_id: addr.address_id,
       });
+      Cookies.set("fromCheckoutAllowed", "true", { path: "/" });
       router.refresh();
     }
   };
@@ -50,6 +54,7 @@ export default function AddressesPage({ addresses }) {
       update_type: "selection",
       address_id: addr.address_id,
     });
+    Cookies.set("fromCheckoutAllowed", "true", { path: "/" });
     router.refresh();
   };
 

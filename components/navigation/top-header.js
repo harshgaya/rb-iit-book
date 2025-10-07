@@ -1,6 +1,6 @@
 // app/components/TopHeader.tsx
+import { SOCIAL_LINKS } from "@/lib/utils/constants";
 import { Facebook, Instagram, Youtube, MessageSquare } from "lucide-react";
-import { SOCIAL_LINKS } from "@/utils/constants";
 
 export default function TopHeader() {
   return (

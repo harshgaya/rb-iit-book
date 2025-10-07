@@ -1,5 +1,6 @@
 import { getHomepageProducts } from "@/lib/api/api";
 import ProductTile from "../product/product-tile";
+import ExploreAll from "./explore-all";
 
 export default async function ProductsHome() {
   const popularBooks = await getHomepageProducts();
@@ -38,9 +39,7 @@ export default async function ProductsHome() {
           Join thousands of students who trust RB Books for their preparation.
           Buy now and start learning immediately!
         </p>
-        <button className="bg-yellow-400 text-white py-3 px-6 rounded-lg font-semibold hover:bg-yellow-500 transition">
-          Explore All Books
-        </button>
+        <ExploreAll />
       </section>
     </main>
   );

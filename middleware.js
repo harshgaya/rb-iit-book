@@ -9,8 +9,7 @@ export async function middleware(req) {
   const name = req.cookies.get("name")?.value || null;
   const email = req.cookies.get("email")?.value || null;
 
-  console.log("Middleware triggered");
-  console.log({ token, userId, name, email, pathname: url.pathname });
+  console.log("Middleware - User Session:", { userId, token, name, email });
 
   // Not logged in → go home
   if (!token || !userId) {
@@ -21,16 +20,13 @@ export async function middleware(req) {
     return NextResponse.next();
   }
 
-  // ✅ Checkout route protection (must be inside middleware)
   if (url.pathname.startsWith("/checkout")) {
     const fromCheckoutAllowed = req.cookies.get("fromCheckoutAllowed")?.value;
 
     if (!fromCheckoutAllowed) {
-      // Redirect to /cart
       return NextResponse.redirect(new URL("/cart", req.url));
     }
 
-    // Remove flag so it can't be reused
     const res = NextResponse.next();
     res.cookies.delete("fromCheckoutAllowed");
     return res;
@@ -39,7 +35,12 @@ export async function middleware(req) {
   return NextResponse.next();
 }
 
-// ✅ Combine matchers properly
 export const config = {
-  matcher: ["/cart/:path*", "/address/:path*", "/checkout/:path*"],
+  matcher: [
+    "/cart/:path*",
+    "/address/:path*",
+    "/checkout/:path*",
+    "/orders/:path*",
+    "/profile/:path*",
+  ],
 };

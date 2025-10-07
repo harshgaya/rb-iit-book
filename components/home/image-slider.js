@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { SLIDER_IMAGES } from "@/utils/constants";
+import { SLIDER_IMAGES } from "@/lib/utils/constants";
 
 export default function ImageSlider() {
   const [currentIndex, setCurrentIndex] = useState(0);
