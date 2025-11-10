@@ -200,13 +200,13 @@ export default function CheckoutPage({ addresses, search }) {
     );
   }
 
-  if (validAddresses.length === 0) {
-    return (
-      <div className="p-8 text-center text-red-600 font-semibold">
-        No addresses found. Please add a shipping address before checkout.
-      </div>
-    );
-  }
+  // if (validAddresses.length === 0) {
+  //   return (
+  //     <div className="p-8 text-center text-red-600 font-semibold">
+  //       No addresses found. Please add a shipping address before checkout.
+  //     </div>
+  //   );
+  // }
 
   // ✅ Render checkout page if all valid
   return (

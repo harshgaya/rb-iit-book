@@ -101,6 +101,9 @@ export default function Navbar() {
                 )}
               </div>
             ))}
+            <Link href="/about-us" className="hover:text-yellow-400">
+              About Us
+            </Link>
           </div>
 
           {/* Right Icons */}
@@ -160,6 +163,9 @@ export default function Navbar() {
                 ))}
               </div>
             ))}
+            <Link href="/about-us" className="hover:text-yellow-400">
+              About Us
+            </Link>
 
             {/* Mobile Search */}
             <form onSubmit={handleSearch} className="px-4 py-2">

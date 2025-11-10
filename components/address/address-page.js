@@ -74,21 +74,22 @@ export default function AddressesPage({ addresses }) {
       </div>
 
       <div className="max-w-3xl mx-auto space-y-4">
-        {addresses.map((addr) => (
-          <AddressItem
-            key={addr.address}
-            address={addr}
-            selected={addr.is_selected || false}
-            onEdit={() => handleEdit(addr)}
-            onDelete={() => {
-              handleDelete(addr);
-            }}
-            onSelect={() => handleSelect(addr)}
-            // onDelete={() =>
-            //   setAddresses((prev) => prev.filter((a) => a.id !== addr.id))
-            // }
-          />
-        ))}
+        {addresses &&
+          addresses.map((addr) => (
+            <AddressItem
+              key={addr.address}
+              address={addr}
+              selected={addr.is_selected || false}
+              onEdit={() => handleEdit(addr)}
+              onDelete={() => {
+                handleDelete(addr);
+              }}
+              onSelect={() => handleSelect(addr)}
+              // onDelete={() =>
+              //   setAddresses((prev) => prev.filter((a) => a.id !== addr.id))
+              // }
+            />
+          ))}
       </div>
 
       {/* Modal */}
