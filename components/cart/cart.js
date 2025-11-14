@@ -8,12 +8,15 @@ import CartItem from "./cart-item";
 import { updateCart } from "@/lib/api/api";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
+import Spinner from "../utils/spinner";
 
 export default function CartPage({ cart }) {
   const router = useRouter();
   const [cartItems, setCartItems] = useState(cart || []);
   const [loading, setLoading] = useState(false);
+  const [navigating, setNavigating] = useState(false);
   function checkout() {
+    setNavigating(true);
     Cookies.set("fromCheckoutAllowed", "true", { path: "/" });
     router.push(` /checkout?type=cart`);
   }
@@ -121,10 +124,16 @@ export default function CartPage({ cart }) {
             </div>
 
             <button
+              disabled={navigating}
               onClick={checkout}
               className="mt-6 w-full py-3 bg-yellow-500 text-white font-semibold rounded-lg hover:bg-yellow-600 transition text-center"
             >
               Proceed to Checkout
+              {navigating && (
+                <span className="inline-block align-middle ml-2">
+                  <Spinner />
+                </span>
+              )}
             </button>
           </div>
         </div>

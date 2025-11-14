@@ -3,44 +3,48 @@
 import { useState } from "react";
 import { Plus } from "lucide-react";
 import AddressItem from "./address-item";
-import HeadlessUIModal from "../modal/headless-ui-modal";
-import { INDIAN_STATES } from "@/lib/utils/constants";
-import { addAddress, getUserAddress, updateAddress } from "@/lib/api/api";
+import ModalHeadlessUi from "../modal/headless-ui-modal";
+import { addAddress, updateAddress } from "@/lib/api/api";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
+import AddressForm from "../modal/address-form";
 
 export default function AddressesPage({ addresses }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [editingAddress, setEditingAddress] = useState(null);
   const router = useRouter();
 
+  // ✅ Add or Update Address
   const handleSaveAddress = async (newAddress) => {
-    if (editingAddress) {
-      await updateAddress({
-        update_type: "address",
-        address_id: editingAddress.address_id,
-        ...newAddress,
-      });
+    try {
+      if (editingAddress) {
+        await updateAddress({
+          update_type: "address",
+          address_id: editingAddress.address_id,
+          ...newAddress,
+        });
+      } else {
+        await addAddress(newAddress);
+      }
+
       Cookies.set("fromCheckoutAllowed", "true", { path: "/" });
       router.refresh();
       setEditingAddress(null);
-    } else {
-      await addAddress(newAddress);
-      Cookies.set("fromCheckoutAllowed", "true", { path: "/" });
-      router.refresh();
+      setModalOpen(false);
+    } catch (error) {
+      console.error("❌ Error saving address:", error);
     }
-    setModalOpen(false);
   };
 
+  // ✅ Edit Handler
   const handleEdit = (addr) => {
     setEditingAddress(addr);
     setModalOpen(true);
   };
+
+  // ✅ Delete Handler
   const handleDelete = async (addr) => {
-    var confirm = window.confirm(
-      "Are you sure you want to delete this address?"
-    );
-    if (confirm) {
+    if (window.confirm("Are you sure you want to delete this address?")) {
       await updateAddress({
         update_type: "delete",
         address_id: addr.address_id,
@@ -49,6 +53,8 @@ export default function AddressesPage({ addresses }) {
       router.refresh();
     }
   };
+
+  // ✅ Select Address
   const handleSelect = async (addr) => {
     await updateAddress({
       update_type: "selection",
@@ -60,6 +66,7 @@ export default function AddressesPage({ addresses }) {
 
   return (
     <main className="min-h-screen bg-gray-50 py-12 px-4 md:px-8">
+      {/* Header */}
       <div className="max-w-3xl mx-auto flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold text-gray-800">Your Addresses</h1>
         <button
@@ -73,132 +80,36 @@ export default function AddressesPage({ addresses }) {
         </button>
       </div>
 
+      {/* Address List */}
       <div className="max-w-3xl mx-auto space-y-4">
-        {addresses &&
+        {addresses && addresses.length > 0 ? (
           addresses.map((addr) => (
             <AddressItem
-              key={addr.address}
+              key={addr.address_id}
               address={addr}
               selected={addr.is_selected || false}
               onEdit={() => handleEdit(addr)}
-              onDelete={() => {
-                handleDelete(addr);
-              }}
+              onDelete={() => handleDelete(addr)}
               onSelect={() => handleSelect(addr)}
-              // onDelete={() =>
-              //   setAddresses((prev) => prev.filter((a) => a.id !== addr.id))
-              // }
             />
-          ))}
+          ))
+        ) : (
+          <p className="text-gray-600 text-center">No addresses found.</p>
+        )}
       </div>
 
-      {/* Modal */}
-      <HeadlessUIModal
+      {/* Address Modal */}
+      <ModalHeadlessUi
         isOpen={modalOpen}
-        closeModal={() => setModalOpen(false)}
+        onClose={() => setModalOpen(false)}
         title={editingAddress ? "Edit Address" : "Add New Address"}
       >
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            const form = e.target;
-
-            // Basic validation
-            const phone = form.phone.value;
-            const zip = form.pincode.value;
-            if (!/^\d{10}$/.test(phone)) {
-              alert("Phone number must be 10 digits");
-              return;
-            }
-            if (!/^\d{6}$/.test(zip)) {
-              alert("Pincode code must be 6 digits");
-              return;
-            }
-
-            handleSaveAddress({
-              name: form.name.value,
-              address: form.address.value,
-              city: form.city.value,
-              state: form.state.value,
-              pincode: form.pincode.value,
-              phone,
-            });
-          }}
-          className="flex flex-col gap-3 text-black"
-        >
-          <input
-            name="name"
-            placeholder="Full Name"
-            required
-            defaultValue={editingAddress?.name || ""}
-            className="border px-3 py-2 rounded"
-          />
-          <input
-            name="address"
-            placeholder="Street Address"
-            required
-            defaultValue={editingAddress?.address || ""}
-            className="border px-3 py-2 rounded"
-          />
-          <input
-            name="city"
-            placeholder="City"
-            required
-            defaultValue={editingAddress?.city || ""}
-            className="border px-3 py-2 rounded"
-          />
-          <select
-            name="state"
-            required
-            defaultValue={editingAddress?.state || ""}
-            className="border px-3 py-2 rounded"
-          >
-            <option value="" disabled>
-              Select State
-            </option>
-            {INDIAN_STATES.map((s) => (
-              <option key={s} value={s}>
-                {s}
-              </option>
-            ))}
-          </select>
-          <input
-            name="pincode"
-            placeholder="PIN Code"
-            type="number"
-            maxLength={6}
-            required
-            defaultValue={editingAddress?.pincode || ""}
-            onWheel={(e) => e.currentTarget.blur()}
-            className="border px-3 py-2 rounded"
-          />
-          <input
-            name="phone"
-            placeholder="Phone Number"
-            type="number"
-            maxLength={10}
-            required
-            onWheel={(e) => e.currentTarget.blur()}
-            defaultValue={editingAddress?.phone || ""}
-            className="border px-3 py-2 rounded"
-          />
-          <div className="flex justify-end gap-2 mt-2">
-            <button
-              type="button"
-              onClick={() => setModalOpen(false)}
-              className="px-4 py-2 rounded border hover:bg-gray-100 transition"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="px-4 py-2 rounded bg-yellow-500 text-white hover:bg-yellow-600 transition"
-            >
-              {editingAddress ? "Update" : "Save"}
-            </button>
-          </div>
-        </form>
-      </HeadlessUIModal>
+        <AddressForm
+          onClose={() => setModalOpen(false)}
+          handleSaveAddress={handleSaveAddress}
+          editingAddress={editingAddress}
+        />
+      </ModalHeadlessUi>
     </main>
   );
 }

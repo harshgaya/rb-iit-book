@@ -39,6 +39,7 @@ export default async function ProductsHome() {
           Join thousands of students who trust RB Books for their preparation.
           Buy now and start learning immediately!
         </p>
+
         <ExploreAll />
       </section>
     </main>

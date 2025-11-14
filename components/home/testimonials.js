@@ -14,21 +14,21 @@ export default function TestimonialsPage() {
       role: "Parent of IIT Student",
       message:
         "Affordable and high-quality books. My son used RB Books for IIT-JEE and scored excellent marks.",
-      image: "/home/img.jpg",
+      image: "/home/parent-img.jpeg",
     },
     {
       name: "Rahul Mehta",
       role: "Olympiad Gold Medalist",
       message:
         "The Olympiad books are concise, challenging, and exactly what I needed to practice. Highly recommend RB Books!",
-      image: "/home/img.jpg",
+      image: "/home/rahul-mehta.jpg",
     },
     {
       name: "Sneha Verma",
       role: "NEET Student",
       message:
         "Best investment I made! The question banks helped me clear my doubts and improve my confidence.",
-      image: "/home/img.jpg",
+      image: "/home/sneha verma.png",
     },
   ];
 

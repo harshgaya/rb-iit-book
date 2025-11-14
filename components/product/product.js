@@ -4,17 +4,37 @@ import { ShoppingCart, CreditCard, Plus, Minus, Book } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
+import Spinner from "../utils/spinner";
+import { useCart } from "@/context/cart-context";
+import { getUserSession } from "@/lib/utils/action";
 
 export default function Product({ book }) {
+  const [loading, setLoading] = useState(false);
+  const [cartLoading, setCartLoading] = useState(false);
   const router = useRouter();
   const [quantity, setQuantity] = useState(1);
+  const cart = useCart();
 
   const increaseQuantity = () => setQuantity((q) => q + 1);
   const decreaseQuantity = () => setQuantity((q) => (q > 1 ? q - 1 : 1));
 
   function goToCheckout() {
+    setLoading(true);
     Cookies.set("fromCheckoutAllowed", "true", { path: "/" });
     router.push(`/checkout?type=single&productId=${book._id}&qty=${quantity}`);
+  }
+  async function handleAddToCart(e) {
+    setCartLoading(true);
+    if (e) {
+      e.stopPropagation();
+    }
+    const session = await getUserSession();
+    if (session.token) {
+      cart.addToCart(book._id);
+    } else {
+      router.push("/sign-in");
+    }
+    setCartLoading(false);
   }
 
   if (!book) {
@@ -101,14 +121,24 @@ export default function Product({ book }) {
 
           {/* Action Buttons */}
           <div className="flex gap-4">
-            <button className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-yellow-400 to-yellow-500 text-white py-3 rounded-md hover:from-yellow-500 hover:to-yellow-600 transition text-lg font-medium">
+            <button
+              disabled={cartLoading}
+              onClick={(e) => handleAddToCart(e)}
+              className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-yellow-400 to-yellow-500 text-white py-3 rounded-md hover:from-yellow-500 hover:to-yellow-600 transition text-lg font-medium"
+            >
               <ShoppingCart className="w-5 h-5" /> Add to Cart
             </button>
             <button
+              disabled={loading}
               onClick={() => goToCheckout()}
               className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-gray-800 to-gray-900 text-white py-3 rounded-md hover:from-gray-900 hover:to-black transition text-lg font-medium"
             >
               <CreditCard className="w-5 h-5" /> Buy Now
+              {loading && (
+                <span className="inline-block ml-2">
+                  <Spinner />
+                </span>
+              )}
             </button>
           </div>
         </div>

@@ -1,69 +1,89 @@
-// app/components/Footer.tsx
 import { SOCIAL_LINKS } from "@/lib/utils/constants";
 import {
   Facebook,
-  Twitter,
   Instagram,
-  Mail,
-  BookOpen,
   Youtube,
   MessageCircle,
+  BookOpen,
+  Mail,
+  Phone,
+  MapPin,
+  Globe,
+  Twitter,
 } from "lucide-react";
 
 export default function Footer() {
   return (
     <footer className="bg-gray-900 text-gray-300">
       <div className="max-w-7xl mx-auto px-4 py-10 sm:px-6 lg:px-8">
-        {/* Top section */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {/* Top Section */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2">
               <BookOpen className="h-6 w-6 text-yellow-400" />
               <h2 className="text-xl font-semibold text-white">
-                {SOCIAL_LINKS.FOOTER_TEXT1}
+                {SOCIAL_LINKS.FOOTER_TEXT1 || "RB Books"}
               </h2>
             </div>
-            <p className="mt-3 text-sm text-gray-400">
-              {SOCIAL_LINKS.FOOTER_TEXT2}
+            <p className="mt-3 text-sm text-gray-400 leading-relaxed">
+              {SOCIAL_LINKS.FOOTER_TEXT2 ||
+                "Providing quality educational books and materials for students and institutions across India."}
             </p>
           </div>
 
-          {/* Quick Links */}
-          {/* <div>
-            <h3 className="text-sm font-semibold text-white tracking-wider uppercase">
-              Quick Links
+          {/* Contact Info */}
+          <div>
+            <h3 className="text-sm font-semibold text-white tracking-wider uppercase mb-4">
+              Contact Us
             </h3>
-            <ul className="mt-4 space-y-2">
-              <li>
-                <a href="#" className="hover:text-yellow-400">
-                  About Us
+            <ul className="space-y-3 text-sm text-gray-400">
+              <li className="flex items-start gap-2">
+                <MapPin className="h-4 w-4 text-yellow-400 mt-1 flex-shrink-0" />
+                <span>
+                  TELANGANA GRAMEENA BANK, near Fever Hospital Main Road,
+                  <br />
+                  New Nallakunta, Hyderabad, Telangana 500044
+                </span>
+              </li>
+              <li className="flex items-center gap-2">
+                <Phone className="h-4 w-4 text-yellow-400" />
+                <a
+                  href="tel:+919030565621"
+                  className="hover:text-yellow-400 transition"
+                >
+                  +91 90305 65621
                 </a>
               </li>
-              <li>
-                <a href="#" className="hover:text-yellow-400">
-                  Shop
+              <li className="flex items-center gap-2">
+                <Mail className="h-4 w-4 text-yellow-400" />
+                <a
+                  href="mailto:rbiitacademy@gmail.com"
+                  className="hover:text-yellow-400 transition"
+                >
+                  rbiitacademy@gmail.com
                 </a>
               </li>
-              <li>
-                <a href="#" className="hover:text-yellow-400">
-                  Contact
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-yellow-400">
-                  FAQs
+              <li className="flex items-center gap-2">
+                <Globe className="h-4 w-4 text-yellow-400" />
+                <a
+                  href="https://www.rbiitacademy.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-yellow-400 transition"
+                >
+                  www.rbiitacademy.com
                 </a>
               </li>
             </ul>
-          </div> */}
+          </div>
 
-          {/* Social */}
+          {/* Social Links */}
           <div>
-            <h3 className="text-sm font-semibold text-white tracking-wider uppercase">
+            <h3 className="text-sm font-semibold text-white tracking-wider uppercase mb-4">
               Follow Us
             </h3>
-            <div className="mt-4 flex space-x-4">
+            <div className="flex space-x-4">
               <a
                 href={SOCIAL_LINKS.FACEBOOK}
                 target="_blank"
@@ -81,29 +101,42 @@ export default function Footer() {
                 <Instagram className="h-5 w-5" />
               </a>
               <a
-                href={SOCIAL_LINKS.YOUTUBE}
+                href={SOCIAL_LINKS.TWITTER}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-yellow-400"
               >
-                <Youtube className="h-5 w-5" />
+                <Twitter className="h-5 w-5" />
               </a>
-              <a
+              {/* <a
                 href={SOCIAL_LINKS.WHATSAPP}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-yellow-400"
               >
                 <MessageCircle className="h-5 w-5" />
-              </a>
+              </a> */}
             </div>
           </div>
         </div>
 
-        {/* Bottom section */}
+        {/* Bottom Section */}
         <div className="mt-10 border-t border-gray-700 pt-6 text-center text-sm text-gray-400">
-          {SOCIAL_LINKS.FOOTER_COPYRIGHT ||
-            `© ${new Date().getFullYear()} RB Books. All rights reserved.`}
+          <p>
+            {SOCIAL_LINKS.FOOTER_COPYRIGHT ||
+              `© ${new Date().getFullYear()} RB Books. All rights reserved.`}
+          </p>
+          <p className="mt-2">
+            Developed by{" "}
+            <a
+              href="http://softplix.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-yellow-400 hover:text-yellow-500 font-medium"
+            >
+              Softplix.com
+            </a>
+          </p>
         </div>
       </div>
     </footer>

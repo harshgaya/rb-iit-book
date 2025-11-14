@@ -3,13 +3,42 @@ import Image from "next/image";
 import { ShoppingCart, CreditCard } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/context/cart-context";
+import { useState } from "react";
+import Spinner from "../utils/spinner";
+import { getUserAddress } from "@/lib/api/api";
+import { getUserSession } from "@/lib/utils/action";
 
 export default function ProductTile({ book }) {
+  const [loading, setLoading] = useState(false);
+  const [cartLoading, setCartLoading] = useState(false);
   const router = useRouter();
   const cart = useCart();
+
+  function handleNavigate(e) {
+    if (e) {
+      e.stopPropagation();
+    }
+    setLoading(true);
+    router.push(`/product/${book._id}`);
+  }
+  async function handleAddToCart(e) {
+    setCartLoading(true);
+    if (e) {
+      e.stopPropagation();
+    }
+    const session = await getUserSession();
+    if (session.token) {
+      cart.addToCart(book._id);
+    } else {
+      router.push("/sign-in");
+    }
+    setCartLoading(false);
+  }
   return (
-    <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition transform hover:-translate-y-1">
-      {/* Book Image */}
+    <div
+      onClick={handleNavigate}
+      className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition transform hover:-translate-y-1"
+    >
       <div className="relative w-full h-64">
         <Image
           src={book.cover_image}
@@ -49,16 +78,26 @@ export default function ProductTile({ book }) {
         {/* Action Buttons */}
         <div className="flex gap-2 mt-auto">
           <button
-            onClick={() => cart.addToCart(book._id)}
+            onClick={(e) => handleAddToCart(e)}
             className="flex-1 flex items-center justify-center gap-1 bg-gradient-to-r from-yellow-400 to-yellow-500 text-white py-2 text-sm rounded-md hover:from-yellow-500 hover:to-yellow-600 transition"
           >
             <ShoppingCart className="w-4 h-4" /> Add
+            {cartLoading && (
+              <span>
+                <Spinner />
+              </span>
+            )}
           </button>
           <button
-            onClick={() => router.push(`/product/${book._id}`)}
+            onClick={(e) => handleNavigate(e)}
             className="flex-1 flex items-center justify-center gap-1 bg-gradient-to-r from-gray-800 to-gray-900 text-white py-2 text-sm rounded-md hover:from-gray-900 hover:to-black transition"
           >
             <CreditCard className="w-4 h-4" /> Buy
+            {loading && (
+              <span>
+                <Spinner />
+              </span>
+            )}
           </button>
         </div>
       </div>

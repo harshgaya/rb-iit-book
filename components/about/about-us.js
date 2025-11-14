@@ -1,6 +1,19 @@
+"use client";
 import Image from "next/image";
+import { useState } from "react";
+import ModalHeadlessUi from "../modal/headless-ui-modal";
+import EnrollForm from "./enroll-form";
 
 export default function AboutUs() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  function handleEnrollClick() {
+    setIsModalOpen(true);
+  }
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <div className="font-sans text-gray-800">
       {/* Hero Section */}
@@ -162,9 +175,15 @@ export default function AboutUs() {
           Join thousands of students who have trusted RB IIT Academy for their
           IIT & NEET journey.
         </p>
-        <button className="mt-6 px-8 py-3 bg-gray-900 text-[#FFDD57] font-semibold rounded-lg hover:bg-gray-800 transition">
+        <button
+          onClick={handleEnrollClick}
+          className="mt-6 px-8 py-3 bg-gray-900 text-[#FFDD57] font-semibold rounded-lg hover:bg-gray-800 transition"
+        >
           Enroll Now
         </button>
+        <ModalHeadlessUi isOpen={isModalOpen} onClose={handleCloseModal}>
+          <EnrollForm onClose={handleCloseModal} />
+        </ModalHeadlessUi>
       </section>
     </div>
   );

@@ -1,6 +1,12 @@
 // app/components/TopHeader.tsx
 import { SOCIAL_LINKS } from "@/lib/utils/constants";
-import { Facebook, Instagram, Youtube, MessageSquare } from "lucide-react";
+import {
+  Facebook,
+  Instagram,
+  Youtube,
+  MessageSquare,
+  Twitter,
+} from "lucide-react";
 
 export default function TopHeader() {
   return (
@@ -31,6 +37,14 @@ export default function TopHeader() {
               <Instagram size={18} />
             </a>
             <a
+              href={SOCIAL_LINKS.TWITTER}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-pink-500 transition-colors"
+            >
+              <Twitter size={18} />
+            </a>
+            {/* <a
               href={SOCIAL_LINKS.YOUTUBE}
               target="_blank"
               rel="noopener noreferrer"
@@ -45,7 +59,7 @@ export default function TopHeader() {
               className="hover:text-green-600 transition-colors"
             >
               <MessageSquare size={18} />
-            </a>
+            </a> */}
           </div>
         </div>
       </div>

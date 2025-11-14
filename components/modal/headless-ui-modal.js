@@ -1,44 +1,41 @@
-// components/Modal.js
-import { Dialog } from "@headlessui/react";
+// Modal.js
+import { Dialog, Transition } from "@headlessui/react";
+import { Fragment } from "react";
 
-export default function HeadlessUIModal({
-  isOpen,
-  closeModal,
-  title,
-  children,
-}) {
+export default function ModalHeadlessUi({ isOpen, onClose, children }) {
   return (
-    <Dialog open={isOpen} onClose={closeModal} className="relative z-50">
-      {/* Overlay */}
-      <div
-        className="fixed inset-0 bg-black bg-opacity-30"
-        aria-hidden="true"
-      />
+    <Transition show={isOpen} as={Fragment}>
+      <Dialog as="div" className="relative z-50" onClose={onClose}>
+        {/* Background overlay */}
+        <Transition.Child
+          as={Fragment}
+          enter="ease-out duration-200"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="ease-in duration-150"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <div className="fixed inset-0 bg-black/50" />
+        </Transition.Child>
 
-      {/* Modal Content */}
-      <div className="fixed inset-0 flex items-center justify-center p-4">
-        <Dialog.Panel className="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
-          {/* Title */}
-          {title && (
-            <Dialog.Title className="text-xl font-bold mb-4 text-black">
-              {title}
-            </Dialog.Title>
-          )}
-
-          {/* Modal Body */}
-          <div>{children}</div>
-
-          {/* Close Button */}
-          {/* <div className="flex justify-end mt-4">
-            <button
-              onClick={closeModal}
-              className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
-            >
-              Close
-            </button>
-          </div> */}
-        </Dialog.Panel>
-      </div>
-    </Dialog>
+        {/* Modal content */}
+        <div className="fixed inset-0 flex items-center justify-center p-4">
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-200"
+            enterFrom="scale-95 opacity-0"
+            enterTo="scale-100 opacity-100"
+            leave="ease-in duration-150"
+            leaveFrom="scale-100 opacity-100"
+            leaveTo="scale-95 opacity-0"
+          >
+            <Dialog.Panel className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl">
+              {children}
+            </Dialog.Panel>
+          </Transition.Child>
+        </div>
+      </Dialog>
+    </Transition>
   );
 }
