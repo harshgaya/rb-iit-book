@@ -78,12 +78,14 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Social Links */}
+          {/* Social + Privacy + Terms */}
           <div>
             <h3 className="text-sm font-semibold text-white tracking-wider uppercase mb-4">
               Follow Us
             </h3>
-            <div className="flex space-x-4">
+
+            {/* Social Icons */}
+            <div className="flex space-x-4 mb-6">
               <a
                 href={SOCIAL_LINKS.FACEBOOK}
                 target="_blank"
@@ -108,14 +110,22 @@ export default function Footer() {
               >
                 <Twitter className="h-5 w-5" />
               </a>
-              {/* <a
-                href={SOCIAL_LINKS.WHATSAPP}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-yellow-400"
+            </div>
+
+            {/* Legal Links */}
+            <div className="flex flex-col space-y-2 text-sm text-gray-400">
+              <a
+                href="/privacy-policy"
+                className="hover:text-yellow-400 transition"
               >
-                <MessageCircle className="h-5 w-5" />
-              </a> */}
+                Privacy Policy
+              </a>
+              <a
+                href="/terms-and-conditions"
+                className="hover:text-yellow-400 transition"
+              >
+                Terms & Conditions
+              </a>
             </div>
           </div>
         </div>
