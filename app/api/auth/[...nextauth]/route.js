@@ -72,6 +72,8 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
 console.log("ENV TESTtt:", process.env.AUTH_GOOGLE_ID);
+console.log("🔥 RUNTIME AUTH_URL:", process.env.AUTH_URL);
+console.log("🔥 RUNTIME HOST:", process.env.NEXTAUTH_URL);
 
 export const authOptions = {
   secret: process.env.AUTH_SECRET,
