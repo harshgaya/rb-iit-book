@@ -1,11 +1,11 @@
-# Firebase App Hosting configuration
+version: 1
 
 runConfig:
   minInstances: 0
-  maxInstances: 10 # <= must be < 20
+  maxInstances: 10
   concurrency: 80
-  cpu: 1 # ok
-  memoryMiB: 512 # ok
+  cpu: 1
+  memoryMiB: 512
 
 env:
   - variable: AUTH_URL
@@ -28,6 +28,12 @@ env:
 
   - variable: AUTH_SECRET
     value: fe51dd4501b392b42c5ec446c9287fac1b3aec6e86e4c4fb429de146b4a18bf8
+    availability:
+      - BUILD
+      - RUNTIME
+
+  - variable: API_URL
+    value: https://your-api-endpoint.com
     availability:
       - BUILD
       - RUNTIME
