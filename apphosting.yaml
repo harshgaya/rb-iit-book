@@ -14,6 +14,12 @@ env:
       - BUILD
       - RUNTIME
 
+  - variable: NEXTAUTH_URL
+    value: https://book.softplix.com
+    availability:
+      - BUILD
+      - RUNTIME
+
   - variable: AUTH_GOOGLE_ID
     value: 662232630315-ctimpq0nldnkmaud5ko7ihk156obpa7u.apps.googleusercontent.com
     availability:
