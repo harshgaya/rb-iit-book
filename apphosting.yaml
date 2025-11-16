@@ -1,0 +1,33 @@
+# Firebase App Hosting configuration
+
+runConfig:
+  minInstances: 1
+  maxInstances: 100
+  concurrency: 80
+  cpu: 1
+  memoryMiB: 1024
+
+env:
+  - variable: AUTH_URL
+    value: https://book.softplix.com
+    availability:
+      - BUILD
+      - RUNTIME
+
+  - variable: AUTH_GOOGLE_ID
+    value: 662232630315-ctimpq0nldnkmaud5ko7ihk156obpa7u.apps.googleusercontent.com
+    availability:
+      - BUILD
+      - RUNTIME
+
+  - variable: AUTH_GOOGLE_SECRET
+    value: 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
+    availability:
+      - BUILD
+      - RUNTIME
+
+  - variable: AUTH_SECRET
+    value: fe51dd4501b392b42c5ec446c9287fac1b3aec6e86e4c4fb429de146b4a18bf8
+    availability:
+      - BUILD
+      - RUNTIME
