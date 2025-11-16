@@ -1,11 +1,11 @@
 # Firebase App Hosting configuration
 
 runConfig:
-  minInstances: 1
-  maxInstances: 100
+  minInstances: 0
+  maxInstances: 10 # <= must be < 20
   concurrency: 80
-  cpu: 1
-  memoryMiB: 1024
+  cpu: 1 # ok
+  memoryMiB: 512 # ok
 
 env:
   - variable: AUTH_URL
