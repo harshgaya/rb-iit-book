@@ -22,7 +22,7 @@ export const authOptions = {
   debug: true,
   trustHost: true,
   // 👇 Hardcode your live domain so NextAuth knows where to redirect
-  site: "https://book.softplix.com",
+  //site: "https://book.softplix.com",
 
   callbacks: {
     async signIn({ user }) {
