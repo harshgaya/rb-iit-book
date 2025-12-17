@@ -77,7 +77,7 @@ export default function ProductTile({ book }) {
 
         {/* Action Buttons */}
         <div className="flex gap-2 mt-auto">
-          <button
+          {/* <button
             onClick={(e) => handleAddToCart(e)}
             className="flex-1 flex items-center justify-center gap-1 bg-gradient-to-r from-yellow-400 to-yellow-500 text-white py-2 text-sm rounded-md hover:from-yellow-500 hover:to-yellow-600 transition"
           >
@@ -87,7 +87,7 @@ export default function ProductTile({ book }) {
                 <Spinner />
               </span>
             )}
-          </button>
+          </button> */}
           <button
             onClick={(e) => handleNavigate(e)}
             className="flex-1 flex items-center justify-center gap-1 bg-gradient-to-r from-gray-800 to-gray-900 text-white py-2 text-sm rounded-md hover:from-gray-900 hover:to-black transition"

@@ -106,16 +106,14 @@ export default function Navbar() {
             </Link>
           </div>
 
-          {/* Right Icons */}
           <div className="flex items-center gap-4 relative">
-            <CartDrawer />
+            {/* <CartDrawer />
             <Link
               href="/cart"
               className="relative hover:text-yellow-400"
             ></Link>
-            <PopOverProfile />
+            <PopOverProfile /> */}
 
-            {/* Mobile Hamburger */}
             <button
               onClick={() => setMenuOpen(!menuOpen)}
               className="md:hidden focus:outline-none"

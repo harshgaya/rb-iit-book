@@ -5,6 +5,7 @@ import TopHeader from "@/components/navigation/top-header";
 import Navbar from "@/components/navigation/navbar";
 import { CartProvider } from "@/context/cart-context";
 import { Toaster } from "react-hot-toast";
+import FloatingWhatsAppButton from "@/components/navigation/floating_whatsapp_button";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,6 +32,7 @@ export default function RootLayout({ children }) {
           <TopHeader />
           <Navbar />
           {children}
+          <FloatingWhatsAppButton />
           <Toaster
             position="bottom-center"
             reverseOrder={false} // newer toasts appear below older ones

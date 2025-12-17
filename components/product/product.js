@@ -20,8 +20,12 @@ export default function Product({ book }) {
 
   function goToCheckout() {
     setLoading(true);
-    Cookies.set("fromCheckoutAllowed", "true", { path: "/" });
-    router.push(`/checkout?type=single&productId=${book._id}&qty=${quantity}`);
+    const message = `Hello Sir,\n I want to order ${book.title} with quantity ${quantity}`;
+    const encodedMessage = encodeURIComponent(message);
+
+    router.push(`https://wa.me/919030565621?text=${encodedMessage}`);
+    // Cookies.set("fromCheckoutAllowed", "true", { path: "/" });
+    // router.push(`/checkout?type=single&productId=${book._id}&qty=${quantity}`);
   }
   async function handleAddToCart(e) {
     setCartLoading(true);
@@ -121,13 +125,13 @@ export default function Product({ book }) {
 
           {/* Action Buttons */}
           <div className="flex gap-4">
-            <button
+            {/* <button
               disabled={cartLoading}
               onClick={(e) => handleAddToCart(e)}
               className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-yellow-400 to-yellow-500 text-white py-3 rounded-md hover:from-yellow-500 hover:to-yellow-600 transition text-lg font-medium"
             >
               <ShoppingCart className="w-5 h-5" /> Add to Cart
-            </button>
+            </button> */}
             <button
               disabled={loading}
               onClick={() => goToCheckout()}
