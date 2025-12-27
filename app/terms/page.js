@@ -22,9 +22,9 @@ export default function TermsAndConditions() {
               1. Introduction
             </h2>
             <p>
-              Welcome to <strong>RB Books / AIM NEET Academy</strong>. By using
-              our website, services, or purchasing our study materials, you
-              agree to the terms outlined here. Please read them carefully.
+              Welcome to <strong>RB Books</strong>. By using our website,
+              services, or purchasing our study materials, you agree to the
+              terms outlined here. Please read them carefully.
             </p>
           </section>
 

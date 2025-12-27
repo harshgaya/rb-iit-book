@@ -68,7 +68,7 @@
 import { setUserSession } from "@/lib/utils/action";
 import { API_URL } from "@/lib/utils/constants";
 
-import NextAuth from "next-auth";
+//import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
 console.log("ENV TESTtt:", process.env.AUTH_GOOGLE_ID);
@@ -129,5 +129,6 @@ export const authOptions = {
   },
 };
 
-const handler = NextAuth(authOptions);
-export { handler as GET, handler as POST };
+//const handler = NextAuth(authOptions);
+//export { handler as GET, handler as POST };
+export {};

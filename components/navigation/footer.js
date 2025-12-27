@@ -10,7 +10,9 @@ import {
   MapPin,
   Globe,
   Twitter,
+  X,
 } from "lucide-react";
+import { FaXTwitter } from "react-icons/fa6";
 
 export default function Footer() {
   return (
@@ -108,7 +110,7 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 className="hover:text-yellow-400"
               >
-                <Twitter className="h-5 w-5" />
+                <FaXTwitter className="h-5 w-5" />
               </a>
             </div>
 
@@ -120,10 +122,7 @@ export default function Footer() {
               >
                 Privacy Policy
               </a>
-              <a
-                href="/terms-and-conditions"
-                className="hover:text-yellow-400 transition"
-              >
+              <a href="/terms" className="hover:text-yellow-400 transition">
                 Terms & Conditions
               </a>
             </div>
