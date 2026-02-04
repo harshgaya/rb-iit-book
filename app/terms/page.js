@@ -22,9 +22,9 @@ export default function TermsAndConditions() {
               1. Introduction
             </h2>
             <p>
-              Welcome to <strong>RB Books</strong>. By using our website,
-              services, or purchasing our study materials, you agree to the
-              terms outlined here. Please read them carefully.
+              Welcome to <strong>RAJESWARI BOOK PUBLISHERS</strong>. By using
+              our website, services, or purchasing our study materials, you
+              agree to the terms outlined here. Please read them carefully.
             </p>
           </section>
 
@@ -133,7 +133,7 @@ export default function TermsAndConditions() {
             <p>
               All content on this website—including text, images, logos, books,
               and materials—is the intellectual property of{" "}
-              <strong>RB Books / AIM NEET Academy</strong>.
+              <strong>RAJESWARI BOOK PUBLISHERS</strong>.
             </p>
             <p className="mt-2">
               Unauthorized copying, distribution, or use of content is strictly

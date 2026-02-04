@@ -12,6 +12,7 @@ import {
   Twitter,
   X,
 } from "lucide-react";
+import Image from "next/image";
 import { FaXTwitter } from "react-icons/fa6";
 
 export default function Footer() {
@@ -23,10 +24,11 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2">
-              <BookOpen className="h-6 w-6 text-yellow-400" />
-              <h2 className="text-xl font-semibold text-white">
+              {/* <BookOpen className="h-6 w-6 text-yellow-400" /> */}
+              {/* <h2 className="text-xl font-semibold text-white">
                 {SOCIAL_LINKS.FOOTER_TEXT1 || "RB Books"}
-              </h2>
+              </h2> */}
+              <Image src={"/logo.jpeg"} alt="logo" height={80} width={80} />
             </div>
             <p className="mt-3 text-sm text-gray-400 leading-relaxed">
               {SOCIAL_LINKS.FOOTER_TEXT2 ||

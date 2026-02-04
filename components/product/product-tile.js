@@ -43,7 +43,8 @@ export default function ProductTile({ book }) {
         <Image
           src={book.cover_image}
           alt={book.title}
-          fill
+          height={100}
+          width={200}
           className="object-cover"
         />
         {/* Discount Badge */}
@@ -51,7 +52,7 @@ export default function ProductTile({ book }) {
           <div className="absolute top-3 left-3 bg-red-500 text-white px-2 py-1 text-xs font-semibold rounded">
             {Math.round(
               ((book.market_price - book.selling_price) / book.market_price) *
-                100
+                100,
             )}
             % OFF
           </div>
@@ -59,7 +60,7 @@ export default function ProductTile({ book }) {
       </div>
 
       {/* Book Info */}
-      <div className="p-4 flex flex-col">
+      <div className="p-4 flex flex-col mt-10">
         <h3 className="text-lg font-semibold text-gray-800 mb-2 truncate">
           {book.title}
         </h3>

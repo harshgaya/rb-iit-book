@@ -22,10 +22,10 @@ export default function PrivacyPolicy() {
               1. Introduction
             </h2>
             <p>
-              At <strong>RB Books</strong>, we value your trust. This Privacy
-              Policy explains how we collect, use, and protect your personal
-              information when you use our website, mobile app, or purchase our
-              products.
+              At <strong>RAJESWARI BOOK PUBLISHERS</strong>, we value your
+              trust. This Privacy Policy explains how we collect, use, and
+              protect your personal information when you use our website, mobile
+              app, or purchase our products.
             </p>
           </section>
 

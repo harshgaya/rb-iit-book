@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation"; // <-- useRouter for client-side na
 import { BookOpen, ShoppingCart, User } from "lucide-react";
 import PopOverProfile from "./pop-over-profile";
 import CartDrawer from "./cart-drawer";
+import Image from "next/image";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -49,8 +50,9 @@ export default function Navbar() {
             href="/"
             className="flex items-center gap-2 text-xl font-bold hover:text-yellow-400"
           >
-            <BookOpen className="w-6 h-6 text-yellow-400" />
-            RB Book
+            {/* <BookOpen className="w-6 h-6 text-yellow-400" /> */}
+            <Image src={"/logo.jpeg"} alt="logo" height={80} width={80} />
+            {/* RB Book */}
           </Link>
 
           {/* Search Input */}
