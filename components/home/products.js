@@ -3,7 +3,7 @@ import ProductTile from "../product/product-tile";
 import ExploreAll from "./explore-all";
 
 export default async function ProductsHome() {
-  const popularBooks = await getHomepageProducts();
+  const populaRPooks = await getHomepageProducts();
   return (
     <main className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 py-16 px-6">
       {/* Header Section */}
@@ -19,7 +19,7 @@ export default async function ProductsHome() {
       {/* Books Grid */}
       <section className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
-          {popularBooks.map((book) => (
+          {populaRPooks.map((book) => (
             <div
               key={book._id}
               className="transform hover:scale-105 transition duration-300"
@@ -36,7 +36,7 @@ export default async function ProductsHome() {
           Get Your Books Today
         </h2>
         <p className="text-gray-600 mb-6">
-          Join thousands of students who trust RB Books for their preparation.
+          Join thousands of students who trust RP Books for their preparation.
           Buy now and start learning immediately!
         </p>
 

@@ -135,7 +135,7 @@ export default function Footer() {
         <div className="mt-10 border-t border-gray-700 pt-6 text-center text-sm text-gray-400">
           <p>
             {SOCIAL_LINKS.FOOTER_COPYRIGHT ||
-              `© ${new Date().getFullYear()} RB Books. All rights reserved.`}
+              `© ${new Date().getFullYear()} RP Books. All rights reserved.`}
           </p>
           <p className="mt-2">
             Developed by{" "}

@@ -6,21 +6,21 @@ export default function TestimonialsPage() {
       name: "Aarav Sharma",
       role: "NEET Aspirant",
       message:
-        "RB Books has been a game changer in my preparation. The biology material is so well structured and easy to revise!",
+        "RP Books has been a game changer in my preparation. The biology material is so well structured and easy to revise!",
       image: "/home/img.jpg",
     },
     {
       name: "Priya Singh",
       role: "Parent of IIT Student",
       message:
-        "Affordable and high-quality books. My son used RB Books for IIT-JEE and scored excellent marks.",
+        "Affordable and high-quality books. My son used RP Books for IIT-JEE and scored excellent marks.",
       image: "/home/parent-img.jpeg",
     },
     {
       name: "Rahul Mehta",
       role: "Olympiad Gold Medalist",
       message:
-        "The Olympiad books are concise, challenging, and exactly what I needed to practice. Highly recommend RB Books!",
+        "The Olympiad books are concise, challenging, and exactly what I needed to practice. Highly recommend RP Books!",
       image: "/home/rahul-mehta.jpg",
     },
     {
@@ -40,7 +40,7 @@ export default function TestimonialsPage() {
           What Our Students & Parents Say
         </h1>
         <p className="text-gray-700 text-lg">
-          Hear from those who trusted RB Books for their Olympiad, IIT, and NEET
+          Hear from those who trusted RP Books for their Olympiad, IIT, and NEET
           preparation.
         </p>
       </section>
@@ -74,7 +74,7 @@ export default function TestimonialsPage() {
           Your Success, Our Mission
         </h2>
         <p className="text-gray-700 text-lg">
-          Join thousands of students and parents who have chosen RB Books for
+          Join thousands of students and parents who have chosen RP Books for
           their preparation journey. Start today and experience the difference.
         </p>
       </section>

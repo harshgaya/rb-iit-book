@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "RB IIT-NEET Books",
+  title: "RP IIT-NEET Books",
   description: "The best books for IIT and NEET preparation.",
 };
 

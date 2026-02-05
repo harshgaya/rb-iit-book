@@ -1,8 +1,8 @@
-export default function WhyRBBooksPage() {
+export default function WhyRPBooksPage() {
   const features = [
     {
       title: "Trusted by Students",
-      desc: "Over 2 million students and parents trust RB Books for Olympiad, IIT, and NEET preparation.",
+      desc: "Over 2 million students and parents trust RP Books for Olympiad, IIT, and NEET preparation.",
       icon: "✅",
     },
     {
@@ -26,9 +26,9 @@ export default function WhyRBBooksPage() {
     <main className="min-h-screen bg-gray-50 py-16 px-6">
       {/* Header */}
       <section className="max-w-4xl mx-auto text-center mb-16">
-        <h1 className="text-4xl font-bold text-gray-800 mb-4">Why RB Books?</h1>
+        <h1 className="text-4xl font-bold text-gray-800 mb-4">Why RP Books?</h1>
         <p className="text-gray-600 text-lg">
-          RB Books is your trusted partner for Olympiad, IIT, and NEET
+          RP Books is your trusted partner for Olympiad, IIT, and NEET
           preparation. Here’s why students, parents, and teachers choose us:
         </p>
       </section>
@@ -55,7 +55,7 @@ export default function WhyRBBooksPage() {
           More than just books
         </h2>
         <p className="text-gray-600">
-          At RB Books, we believe in empowering students with the right
+          At RP Books, we believe in empowering students with the right
           resources at the right time. Whether it’s Olympiad, IIT, or NEET, our
           mission is to make your preparation smooth, affordable, and effective.
         </p>
