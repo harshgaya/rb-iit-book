@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 export default function Hero() {
   return (
     <section className="w-full  bg-gradient-to-br from-yellow-50 to-white py-0">
@@ -29,11 +31,11 @@ export default function Hero() {
             </p>
 
             <div className="flex flex-wrap gap-4 mt-8">
-              <a href="/products">
+              <Link href="/products">
                 <button className="bg-yellow-400 text-white px-7 py-3 rounded-xl font-semibold shadow-lg transition">
                   View Books
                 </button>
-              </a>
+              </Link>
 
               {/* <button className="border border-gray-300 hover:border-orange-600 hover:text-orange-600 px-7 py-3 rounded-xl font-semibold transition">
                 Contact Us

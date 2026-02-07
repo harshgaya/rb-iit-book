@@ -7,6 +7,7 @@ import Cookies from "js-cookie";
 import Spinner from "../utils/spinner";
 import { useCart } from "@/context/cart-context";
 import { getUserSession } from "@/lib/utils/action";
+import { websiteTrack } from "@/lib/api/api";
 
 export default function Product({ book }) {
   const [loading, setLoading] = useState(false);
@@ -20,6 +21,7 @@ export default function Product({ book }) {
 
   function goToCheckout() {
     setLoading(true);
+    websiteTrack({ type: "purchase_click" });
     const message = `Hello Sir,\n I want to order ${book.title} with quantity ${quantity}`;
     const encodedMessage = encodeURIComponent(message);
 
