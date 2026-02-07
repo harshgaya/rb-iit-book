@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import ImageCarousel from "./image-carousal";
 
 export default function Hero() {
   return (
@@ -63,11 +64,12 @@ export default function Hero() {
 
           {/* RIGHT IMAGE */}
           <div>
-            <img
+            {/* <img
               src="/home/hero.jpg"
               alt="School Books"
               className="rounded-3xl shadow-2xl w-full h-[420px] object-cover"
-            />
+            /> */}
+            <ImageCarousel />
           </div>
         </div>
       </div>

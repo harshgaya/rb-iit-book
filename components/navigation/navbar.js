@@ -19,6 +19,16 @@ export default function Navbar() {
       { name: "Class 9", href: "/products/class-9" },
       { name: "Class 10", href: "/products/class-10" },
     ],
+    Olympiad: [
+      { name: "Physics", href: "/products?search=physics" },
+      { name: "Chemistry", href: "/products?search=chemistry" },
+      { name: "Maths", href: "/products?search=math" },
+    ],
+    Olympiad: [
+      { name: "Physics", href: "/products?search=olympiad" },
+      { name: "Chemistry", href: "/products?search=olympiad" },
+      { name: "Maths", href: "/products?search=olympiad" },
+    ],
   };
 
   const handleSearch = (e) => {
@@ -32,9 +42,7 @@ export default function Navbar() {
   return (
     <nav className="bg-gray-900 text-white sticky top-0 z-50 shadow-md">
       <div className="max-w-7xl mx-auto px-4">
-        {/* TOP BAR */}
         <div className="flex justify-between items-center h-16">
-          {/* LEFT LOGO */}
           <Link href="/" className="flex items-center gap-2">
             <Image src="/logo.jpeg" alt="logo" width={55} height={55} />
           </Link>
@@ -56,9 +64,7 @@ export default function Navbar() {
             </button>
           </form>
 
-          {/* RIGHT MENU + HAMBURGER */}
           <div className="flex items-center gap-6">
-            {/* DESKTOP MENU */}
             <div className="hidden md:flex items-center gap-6">
               {Object.keys(dropdownItems).map((menu) => (
                 <div
@@ -95,7 +101,6 @@ export default function Navbar() {
               </Link>
             </div>
 
-            {/* HAMBURGER RIGHT */}
             <button
               onClick={() => setMenuOpen(!menuOpen)}
               className="md:hidden"
@@ -109,7 +114,6 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* MOBILE SEARCH ALWAYS VISIBLE */}
         <form onSubmit={handleSearch} className="md:hidden pb-3">
           <input
             type="text"
@@ -121,7 +125,6 @@ export default function Navbar() {
         </form>
       </div>
 
-      {/* MOBILE MENU WITH ANIMATION */}
       <div
         className={`md:hidden bg-gray-800 overflow-hidden transition-all duration-300 ${
           menuOpen ? "max-h-[400px] py-4" : "max-h-0"
