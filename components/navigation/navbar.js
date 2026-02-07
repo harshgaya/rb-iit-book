@@ -19,7 +19,7 @@ export default function Navbar() {
       { name: "Class 9", href: "/products/class-9" },
       { name: "Class 10", href: "/products/class-10" },
     ],
-    Olympiad: [
+    IIT: [
       { name: "Physics", href: "/products?search=physics" },
       { name: "Chemistry", href: "/products?search=chemistry" },
       { name: "Maths", href: "/products?search=math" },
