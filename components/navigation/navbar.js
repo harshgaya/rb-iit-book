@@ -29,6 +29,15 @@ export default function Navbar() {
       { name: "Chemistry", href: "/products?search=olympiad" },
       { name: "Maths", href: "/products?search=olympiad" },
     ],
+    Contents: [
+      { name: "Class 6", href: "/contents/class-6.pdf" },
+      { name: "Class 7", href: "/contents/class-7.pdf" },
+      { name: "Class 8", href: "/contents/class-8.pdf" },
+      { name: "Class 9", href: "/contents/class-9.pdf" },
+      { name: "Class 10", href: "/contents/class-10.pdf" },
+      { name: "Marvels", href: "/contents/marvel.pdf" },
+      { name: "Conquering", href: "/contents/conq.pdf" },
+    ],
   };
 
   const handleSearch = (e) => {
@@ -47,7 +56,6 @@ export default function Navbar() {
             <Image src="/logo.jpeg" alt="logo" width={55} height={55} />
           </Link>
 
-          {/* DESKTOP SEARCH */}
           <form
             onSubmit={handleSearch}
             className="hidden md:flex items-center w-[420px]"
@@ -126,41 +134,59 @@ export default function Navbar() {
       </div>
 
       <div
-        className={`md:hidden bg-gray-800 overflow-hidden transition-all duration-300 ${
-          menuOpen ? "max-h-[400px] py-4" : "max-h-0"
+        className={`md:hidden bg-gray-900 overflow-hidden transition-all duration-300 ${
+          menuOpen ? "max-h-[85vh] py-4" : "max-h-0"
         }`}
       >
-        <div className="px-4 space-y-2">
-          <p className="text-yellow-400 font-semibold">Foundation</p>
+        <div className="px-4 space-y-2 overflow-y-auto max-h-[80vh]">
+          {Object.keys(dropdownItems).map((menu) => (
+            <div key={menu} className="border-b border-gray-700 pb-2">
+              <button
+                onClick={() =>
+                  setActiveDropdown(activeDropdown === menu ? null : menu)
+                }
+                className="w-full flex justify-between items-center py-3 text-left text-yellow-400 font-semibold"
+              >
+                {menu}
+                <span className="text-lg">
+                  {activeDropdown === menu ? "−" : "+"}
+                </span>
+              </button>
 
-          {dropdownItems.Foundation.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              onClick={() => setMenuOpen(false)}
-              className="block py-2 px-3 rounded hover:bg-gray-700"
-            >
-              {item.name}
-            </Link>
+              {activeDropdown === menu && (
+                <div className="pl-3 space-y-1">
+                  {dropdownItems[menu].map((item) => (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      onClick={() => setMenuOpen(false)}
+                      className="block py-2 px-3 rounded-lg hover:bg-gray-800 text-sm"
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
           ))}
 
-          <hr className="border-gray-700 my-3" />
+          <div className="pt-3 space-y-2">
+            <Link
+              href="/about-us"
+              onClick={() => setMenuOpen(false)}
+              className="block py-3 px-3 rounded-lg hover:bg-gray-800"
+            >
+              About Us
+            </Link>
 
-          <Link
-            href="/about-us"
-            onClick={() => setMenuOpen(false)}
-            className="block py-2 px-3 hover:bg-gray-700 rounded"
-          >
-            About Us
-          </Link>
-
-          <Link
-            href="/contact"
-            onClick={() => setMenuOpen(false)}
-            className="block py-2 px-3 hover:bg-gray-700 rounded"
-          >
-            Contact Us
-          </Link>
+            <Link
+              href="/contact"
+              onClick={() => setMenuOpen(false)}
+              className="block py-3 px-3 rounded-lg hover:bg-gray-800"
+            >
+              Contact Us
+            </Link>
+          </div>
         </div>
       </div>
     </nav>
