@@ -8,6 +8,7 @@ import Spinner from "../utils/spinner";
 import { useCart } from "@/context/cart-context";
 import { getUserSession } from "@/lib/utils/action";
 import { websiteTrack } from "@/lib/api/api";
+import ImageGallery from "./image-galler";
 
 export default function Product({ book }) {
   const [loading, setLoading] = useState(false);
@@ -55,15 +56,16 @@ export default function Product({ book }) {
   return (
     <main className="min-h-screen bg-gray-50 py-12 px-4 md:px-8">
       <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col md:flex-row gap-8">
+        <ImageGallery images={book.gallery_images} title={book.title} />
         {/* Book Image */}
-        <div className="relative w-full md:w-1/2 h-96 md:h-auto bg-gray-100">
+        {/* <div className="relative w-full md:w-1/2 h-96 md:h-auto bg-gray-100">
           <Image
             src={book.cover_image}
             alt={book.title}
             fill
             className="object-contain object-top rounded-l-2xl" // 👈 added object-top
           />
-        </div>
+        </div> */}
 
         {/* Book Details */}
         <div className="p-6 flex flex-col justify-between md:w-1/2">

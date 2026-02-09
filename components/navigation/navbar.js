@@ -29,7 +29,7 @@ export default function Navbar() {
       { name: "Chemistry", href: "/products?search=olympiad" },
       { name: "Maths", href: "/products?search=olympiad" },
     ],
-    Contents: [
+    "Books Index": [
       { name: "Class 6", href: "/contents/class-6.pdf" },
       { name: "Class 7", href: "/contents/class-7.pdf" },
       { name: "Class 8", href: "/contents/class-8.pdf" },
