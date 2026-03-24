@@ -21,7 +21,7 @@ export default function ImageCarousel() {
           key={i}
           src={img}
           alt="books"
-          className={`absolute w-full h-full object-cover transition-opacity duration-1000 ${
+          className={`absolute w-full h-full object-fit transition-opacity duration-1000 ${
             i === index ? "opacity-100" : "opacity-0"
           }`}
         />

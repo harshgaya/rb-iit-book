@@ -1,40 +1,59 @@
 "use client";
+
 import Image from "next/image";
-import { ShoppingCart, CreditCard, Plus, Minus, Book } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Cookies from "js-cookie";
-import Spinner from "../utils/spinner";
+import {
+  FiPlus,
+  FiMinus,
+  FiShoppingCart,
+  FiShield,
+  FiTruck,
+  FiRotateCcw,
+  FiStar,
+} from "react-icons/fi";
+import { BsWhatsapp, BsFillPatchCheckFill } from "react-icons/bs";
+import { SiFlipkart, SiAmazon } from "react-icons/si";
 import { useCart } from "@/context/cart-context";
 import { getUserSession } from "@/lib/utils/action";
 import { websiteTrack } from "@/lib/api/api";
+import Spinner from "../utils/spinner";
 import ImageGallery from "./image-galler";
 
+const TRUST_BADGES = [
+  { icon: FiShield, label: "Secure Payment" },
+  { icon: FiTruck, label: "Fast Delivery" },
+  { icon: FiRotateCcw, label: "Easy Returns" },
+  { icon: BsFillPatchCheckFill, label: "100% Genuine" },
+];
+
 export default function Product({ book }) {
+  const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(false);
   const [cartLoading, setCartLoading] = useState(false);
   const router = useRouter();
-  const [quantity, setQuantity] = useState(1);
   const cart = useCart();
 
-  const increaseQuantity = () => setQuantity((q) => q + 1);
-  const decreaseQuantity = () => setQuantity((q) => (q > 1 ? q - 1 : 1));
+  const increase = () => setQuantity((q) => q + 1);
+  const decrease = () => setQuantity((q) => (q > 1 ? q - 1 : 1));
 
-  function goToCheckout() {
+  const discount =
+    book?.market_price && book?.selling_price
+      ? Math.round(
+          ((book.market_price - book.selling_price) / book.market_price) * 100,
+        )
+      : null;
+
+  function buyOnWhatsapp() {
     setLoading(true);
     websiteTrack({ type: "purchase_click" });
-    const message = `Hello Sir,\n I want to order ${book.title} with quantity ${quantity}`;
-    const encodedMessage = encodeURIComponent(message);
-
-    router.push(`https://wa.me/919030565621?text=${encodedMessage}`);
-    // Cookies.set("fromCheckoutAllowed", "true", { path: "/" });
-    // router.push(`/checkout?type=single&productId=${book._id}&qty=${quantity}`);
+    const msg = `Hello Sir,\nI want to order *${book.title}* × ${quantity}`;
+    router.push(`https://wa.me/919030565621?text=${encodeURIComponent(msg)}`);
   }
+
   async function handleAddToCart(e) {
+    e?.stopPropagation();
     setCartLoading(true);
-    if (e) {
-      e.stopPropagation();
-    }
     const session = await getUserSession();
     if (session.token) {
       cart.addToCart(book._id);
@@ -47,110 +66,185 @@ export default function Product({ book }) {
   if (!book) {
     return (
       <main className="min-h-screen flex flex-col items-center justify-center bg-gray-50 px-4">
-        <Book className="w-16 h-16 text-gray-400 mb-4" />
-        <p className="text-gray-500 text-xl">Product not found.</p>
+        <FiShoppingCart className="w-16 h-16 text-gray-300 mb-4" />
+        <p className="text-gray-400 text-lg font-medium">Product not found.</p>
       </main>
     );
   }
 
+  // Shared buy button group — used on desktop inline & mobile sticky bar
+  const BuyButtons = () => (
+    <div className="flex flex-col gap-3">
+      <button
+        onClick={buyOnWhatsapp}
+        disabled={loading}
+        className="w-full flex items-center justify-center gap-2.5 bg-[#25D366] hover:bg-[#1ebe5d] active:bg-[#17a84f] text-white font-bold text-base py-3.5 rounded-xl transition-all duration-150 shadow-sm disabled:opacity-70"
+      >
+        <BsWhatsapp className="text-xl" />
+        Buy on WhatsApp
+        {loading && <Spinner />}
+      </button>
+
+      <div className="grid grid-cols-2 gap-3">
+        <a
+          href={book.flipkart_url || "#"}
+          target="_blank"
+          rel="noreferrer"
+          className="flex items-center justify-center gap-2 bg-[#F9A825] hover:bg-[#f0a000] text-white font-bold text-sm py-3 rounded-xl transition-all duration-150 shadow-sm"
+        >
+          <SiFlipkart className="text-lg" />
+          Flipkart
+        </a>
+        <a
+          href={book.amazon_url || "#"}
+          target="_blank"
+          rel="noreferrer"
+          className="flex items-center justify-center gap-2 bg-[#FF9900] hover:bg-[#e68a00] text-white font-bold text-sm py-3 rounded-xl transition-all duration-150 shadow-sm"
+        >
+          <SiAmazon className="text-lg" />
+          Amazon
+        </a>
+      </div>
+    </div>
+  );
+
   return (
-    <main className="min-h-screen bg-gray-50 py-12 px-4 md:px-8">
-      <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col md:flex-row gap-8">
-        <ImageGallery images={book.gallery_images} title={book.title} />
-        {/* Book Image */}
-        {/* <div className="relative w-full md:w-1/2 h-96 md:h-auto bg-gray-100">
-          <Image
-            src={book.cover_image}
-            alt={book.title}
-            fill
-            className="object-contain object-top rounded-l-2xl" // 👈 added object-top
-          />
-        </div> */}
-
-        {/* Book Details */}
-        <div className="p-6 flex flex-col justify-between md:w-1/2">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-5">
-              {book.title}
-            </h1>
-
-            {/* ✅ Key Features (before description) */}
-            {book.keys && Array.isArray(book.keys) && book.keys.length > 0 && (
-              <div className="mb-6">
-                <h2 className="text-xl font-semibold text-gray-900 mb-3">
-                  Key Features
-                </h2>
-                <ul className="list-disc list-inside text-gray-700 space-y-1 leading-relaxed text-base">
-                  {book.keys.map((key, index) => (
-                    <li key={index}>{key}</li>
-                  ))}
-                </ul>
+    <>
+      {/*
+        pb-36 on mobile gives breathing room so content isn't hidden
+        behind the sticky bottom bar. Removed on md+.
+      */}
+      <main className="min-h-screen bg-gray-50 py-8 px-4 md:px-8 pb-40 md:pb-8">
+        <div className="max-w-6xl mx-auto">
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+            <div className="flex flex-col md:flex-row">
+              {/* Left — Image gallery */}
+              <div className="w-full md:w-[45%] md:border-r border-gray-100">
+                <ImageGallery images={book.gallery_images} title={book.title} />
               </div>
-            )}
 
-            {/* ✅ Description */}
-            {book.description && (
-              <p className="text-gray-700 text-lg leading-relaxed mb-8">
-                {book.description}
-              </p>
-            )}
+              {/* Right — Details */}
+              <div className="flex-1 p-6 md:p-8 flex flex-col gap-6">
+                {/* Title + category badge */}
+                <div>
+                  {book.category && (
+                    <span className="inline-block text-xs font-semibold text-yellow-600 bg-yellow-50 border border-yellow-200 rounded-full px-3 py-0.5 mb-2">
+                      {book.category}
+                    </span>
+                  )}
+                  <h1 className="text-2xl md:text-3xl font-bold text-gray-900 leading-snug">
+                    {book.title}
+                  </h1>
+                  <div className="flex items-center gap-1.5 mt-2">
+                    {[...Array(5)].map((_, i) => (
+                      <FiStar
+                        key={i}
+                        className="w-4 h-4 fill-yellow-400 text-yellow-400"
+                      />
+                    ))}
+                    <span className="text-xs text-gray-400 ml-1">
+                      Bestseller
+                    </span>
+                  </div>
+                </div>
 
-            {/* Price Section */}
-            <div className="flex items-center gap-4 mb-6">
-              <span className="text-yellow-500 font-bold text-2xl">
-                ₹{book.selling_price}
-              </span>
-              {book.market_price && (
-                <span className="text-gray-400 line-through text-lg">
-                  ₹{book.market_price}
-                </span>
-              )}
+                {/* Price */}
+                <div className="flex items-end gap-3">
+                  <span className="text-3xl font-extrabold text-gray-900">
+                    ₹{book.selling_price}
+                  </span>
+                  {book.market_price && (
+                    <>
+                      <span className="text-lg text-gray-400 line-through mb-0.5">
+                        ₹{book.market_price}
+                      </span>
+                      {discount && (
+                        <span className="text-sm font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded-full mb-0.5">
+                          {discount}% off
+                        </span>
+                      )}
+                    </>
+                  )}
+                </div>
+
+                {/* Key Features */}
+                {book.keys?.length > 0 && (
+                  <div>
+                    <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">
+                      Key Features
+                    </h2>
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {book.keys.map((key, i) => (
+                        <li
+                          key={i}
+                          className="flex items-start gap-2 text-sm text-gray-700"
+                        >
+                          <BsFillPatchCheckFill className="text-yellow-500 mt-0.5 flex-shrink-0" />
+                          <span>{key}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {/* Description */}
+                {book.description && (
+                  <p className="text-sm text-gray-600 leading-relaxed border-t border-gray-100 pt-4">
+                    {book.description}
+                  </p>
+                )}
+
+                {/* Quantity */}
+                <div className="flex items-center gap-1">
+                  <span className="text-sm font-medium text-gray-600 mr-3">
+                    Qty:
+                  </span>
+                  <button
+                    onClick={decrease}
+                    className="w-8 h-8 flex items-center justify-center rounded-lg border border-gray-200 hover:border-gray-400 transition"
+                  >
+                    <FiMinus className="w-3.5 h-3.5 text-gray-700" />
+                  </button>
+                  <span className="w-10 text-center font-bold text-gray-900">
+                    {quantity}
+                  </span>
+                  <button
+                    onClick={increase}
+                    className="w-8 h-8 flex items-center justify-center rounded-lg border border-gray-200 hover:border-gray-400 transition"
+                  >
+                    <FiPlus className="w-3.5 h-3.5 text-gray-700" />
+                  </button>
+                </div>
+
+                {/* Buy buttons — desktop only */}
+                <div className="hidden md:block">
+                  <BuyButtons />
+                </div>
+
+                {/* Trust badges */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1 border-t border-gray-100">
+                  {TRUST_BADGES.map(({ icon: Icon, label }) => (
+                    <div
+                      key={label}
+                      className="flex flex-col items-center gap-1 text-center"
+                    >
+                      <Icon className="text-gray-400 text-lg" />
+                      <span className="text-[11px] text-gray-400 font-medium">
+                        {label}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
-
-            {/* Quantity Selector */}
-            <div className="flex items-center gap-3 mb-6">
-              <button
-                onClick={decreaseQuantity}
-                className="p-2 bg-black text-white rounded hover:bg-gray-800 transition"
-              >
-                <Minus className="w-4 h-4" />
-              </button>
-              <span className="text-gray-800 font-medium text-lg">
-                {quantity}
-              </span>
-              <button
-                onClick={increaseQuantity}
-                className="p-2 bg-black text-white rounded hover:bg-gray-800 transition"
-              >
-                <Plus className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-
-          {/* Action Buttons */}
-          <div className="flex gap-4">
-            {/* <button
-              disabled={cartLoading}
-              onClick={(e) => handleAddToCart(e)}
-              className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-yellow-400 to-yellow-500 text-white py-3 rounded-md hover:from-yellow-500 hover:to-yellow-600 transition text-lg font-medium"
-            >
-              <ShoppingCart className="w-5 h-5" /> Add to Cart
-            </button> */}
-            <button
-              disabled={loading}
-              onClick={() => goToCheckout()}
-              className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-gray-800 to-gray-900 text-white py-3 rounded-md hover:from-gray-900 hover:to-black transition text-lg font-medium"
-            >
-              <CreditCard className="w-5 h-5" /> Buy Now
-              {loading && (
-                <span className="inline-block ml-2">
-                  <Spinner />
-                </span>
-              )}
-            </button>
           </div>
         </div>
+      </main>
+
+      {/* ── Sticky bottom bar — mobile only (hidden on md+) ───────────────── */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-white border-t border-gray-200 shadow-[0_-4px_24px_rgba(0,0,0,0.10)] px-4 py-3">
+        <BuyButtons />
       </div>
-    </main>
+    </>
   );
 }

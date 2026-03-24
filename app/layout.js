@@ -20,8 +20,52 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "RP IIT-NEET Books",
-  description: "The best books for IIT and NEET preparation.",
+  metadataBase: new URL("https://iitneetbooks.com/"),
+  title: "IIT NEET Books | Best Books for IIT-JEE & NEET Preparation",
+  description:
+    "Buy the best IIT-JEE and NEET preparation books with structured content, expert-designed material, and proven results. IIT NEET Books provides high-quality study resources for JEE, NEET & EAMCET aspirants. Start your preparation with the right books today.",
+  keywords:
+    "IIT NEET Books, JEE Books, NEET Books, Best Books for IIT JEE, NEET Preparation Books, EAMCET Books, IIT Study Material, Medical Entrance Books, Engineering Entrance Books, Competitive Exam Books India",
+  authors: [{ name: "IIT NEET Books", url: "https://iitneetbooks.com/" }],
+  creator: "IIT NEET Books",
+
+  openGraph: {
+    title: "IIT NEET Books | Best Books for IIT-JEE & NEET Preparation",
+    description:
+      "Get top-quality IIT-JEE, NEET & EAMCET preparation books with expert-curated content. Start your success journey with IIT NEET Books.",
+    url: "https://iitneetbooks.com/",
+    type: "website",
+    siteName: "IIT NEET Books",
+    images: [
+      {
+        url: "/logo.jpeg",
+        width: 1200,
+        height: 630,
+        alt: "IIT NEET Books Logo",
+      },
+    ],
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    site: "@iitneetbooks",
+    title: "IIT NEET Books | IIT-JEE & NEET Study Material",
+    description:
+      "Best books for IIT-JEE, NEET & EAMCET preparation. Structured content, expert material, and proven results.",
+    images: ["/logo.jpeg"],
+  },
+
+  icons: {
+    icon: "/logo.jpeg",
+    apple: "/logo.jpeg",
+  },
+
+  alternates: {
+    canonical: "https://iitneetbooks.com/",
+    languages: {
+      en: "https://iitneetbooks.com/",
+    },
+  },
 };
 
 export default function RootLayout({ children }) {

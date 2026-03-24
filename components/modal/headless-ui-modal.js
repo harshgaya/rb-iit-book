@@ -1,4 +1,6 @@
-// Modal.js
+// headless-ui-modal.js
+"use client";
+
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 
@@ -6,7 +8,7 @@ export default function ModalHeadlessUi({ isOpen, onClose, children }) {
   return (
     <Transition show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-50" onClose={onClose}>
-        {/* Background overlay */}
+        {/* Backdrop */}
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-200"
@@ -19,7 +21,7 @@ export default function ModalHeadlessUi({ isOpen, onClose, children }) {
           <div className="fixed inset-0 bg-black/50" />
         </Transition.Child>
 
-        {/* Modal content */}
+        {/* Centering container */}
         <div className="fixed inset-0 flex items-center justify-center p-4">
           <Transition.Child
             as={Fragment}
@@ -30,7 +32,14 @@ export default function ModalHeadlessUi({ isOpen, onClose, children }) {
             leaveFrom="scale-100 opacity-100"
             leaveTo="scale-95 opacity-0"
           >
-            <Dialog.Panel className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl">
+            {/*
+              KEY FIX:
+              - max-h-[90vh]  → caps panel height to viewport
+              - flex flex-col → children can use flex-1 to fill remaining space
+              - overflow-hidden → panel itself never scrolls; inner child does
+              - p-6 moved here so children inherit padding without breaking flex
+            */}
+            <Dialog.Panel className="w-full max-w-md max-h-[90vh] flex flex-col overflow-hidden rounded-2xl bg-white shadow-xl p-6">
               {children}
             </Dialog.Panel>
           </Transition.Child>
