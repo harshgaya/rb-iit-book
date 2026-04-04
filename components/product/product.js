@@ -139,7 +139,6 @@ export default function Product({ book }) {
 
               {/* Right — Details */}
               <div className="flex-1 p-6 md:p-8 flex flex-col gap-6">
-                {/* Title + category badge */}
                 <div>
                   {book.category && (
                     <span className="inline-block text-xs font-semibold text-yellow-600 bg-yellow-50 border border-yellow-200 rounded-full px-3 py-0.5 mb-2">
