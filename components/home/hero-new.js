@@ -204,7 +204,7 @@ export default function HeroNew() {
                     Free Delivery
                   </div>
                   <div className="text-xs text-gray-400">
-                    Pan-India · Orders ₹499+
+                    Pan-India · Orders ₹1000+
                   </div>
                 </div>
               </div>

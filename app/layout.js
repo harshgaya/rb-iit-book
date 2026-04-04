@@ -8,6 +8,7 @@ import { Toaster } from "react-hot-toast";
 import FloatingWhatsAppButton from "@/components/navigation/floating_whatsapp_button";
 import ClientTracker from "@/components/navigation/client-track";
 import FloatingContactButtons from "@/components/navigation/floating-button";
+import PixelInit from "@/components/home/pixel-init";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -74,6 +75,7 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <PixelInit />
         <CartProvider>
           <TopHeader />
           <ClientTracker />

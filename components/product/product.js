@@ -3,6 +3,8 @@
 import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import ReactPixel from "react-facebook-pixel";
+
 import {
   FiPlus,
   FiMinus,
@@ -46,6 +48,10 @@ export default function Product({ book }) {
 
   function buyOnWhatsapp() {
     setLoading(true);
+    ReactPixel.track("Whatspp_purchase", {
+      value: book.selling_price,
+      currency: "INR",
+    });
     websiteTrack({ type: "purchase_click" });
     const msg = `Hello Sir,\nI want to order *${book.title}* × ${quantity}`;
     router.push(`https://wa.me/919030565621?text=${encodeURIComponent(msg)}`);
@@ -88,6 +94,10 @@ export default function Product({ book }) {
       <div className="grid grid-cols-2 gap-3">
         <a
           href={book.flipkart_url || "#"}
+          onClick={ReactPixel.track("Flipkart_purchase", {
+            value: book.selling_price,
+            currency: "INR",
+          })}
           target="_blank"
           rel="noreferrer"
           className="flex items-center justify-center gap-2 bg-[#F9A825] hover:bg-[#f0a000] text-white font-bold text-sm py-3 rounded-xl transition-all duration-150 shadow-sm"
@@ -97,6 +107,10 @@ export default function Product({ book }) {
         </a>
         <a
           href={book.amazon_url || "#"}
+          onClick={ReactPixel.track("Amazon_purchase", {
+            value: book.selling_price,
+            currency: "INR",
+          })}
           target="_blank"
           rel="noreferrer"
           className="flex items-center justify-center gap-2 bg-[#FF9900] hover:bg-[#e68a00] text-white font-bold text-sm py-3 rounded-xl transition-all duration-150 shadow-sm"
