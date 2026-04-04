@@ -1,11 +1,13 @@
 "use client";
+
 import { useEffect } from "react";
-import ReactPixel from "react-facebook-pixel";
 
 export default function PixelInit() {
   useEffect(() => {
-    ReactPixel.init("1914627135842913");
-    ReactPixel.pageView();
+    import("react-facebook-pixel").then((ReactPixel) => {
+      ReactPixel.default.init("1914627135842913");
+      ReactPixel.default.pageView();
+    });
   }, []);
 
   return null;
