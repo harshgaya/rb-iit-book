@@ -19,7 +19,7 @@ const STATS = [
 const TRUST_PILLS = [
   {
     icon: <FiTruck className="text-yellow-600" />,
-    text: "Free delivery above ₹499",
+    text: "Free delivery above ₹1000",
   },
   {
     icon: <FiCheckCircle className="text-yellow-600" />,
