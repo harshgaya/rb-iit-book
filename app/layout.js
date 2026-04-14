@@ -9,6 +9,7 @@ import FloatingWhatsAppButton from "@/components/navigation/floating_whatsapp_bu
 import ClientTracker from "@/components/navigation/client-track";
 import FloatingContactButtons from "@/components/navigation/floating-button";
 import PixelInit from "@/components/home/pixel-init";
+import { Analytics } from "@vercel/analytics/next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -88,6 +89,7 @@ export default function RootLayout({ children }) {
           />
           <Footer />
         </CartProvider>
+        <Analytics />
       </body>
     </html>
   );
