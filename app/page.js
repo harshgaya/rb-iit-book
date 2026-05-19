@@ -6,6 +6,7 @@ import BulkOrder from "@/components/home/bulk-order";
 import Hero from "@/components/home/hero";
 import IITFoundation from "@/components/home/about-iit-neet-foundation";
 import HeroNew from "@/components/home/hero-new";
+import NewlyArrived from "@/components/home/newly_arrived";
 export const dynamic = "force-dynamic";
 
 export default function Home() {
@@ -14,8 +15,10 @@ export default function Home() {
       {/* <ImageSlider /> */}
       {/* <Hero /> */}
       <HeroNew />
+      <NewlyArrived />
       <IITFoundation />
       <WhyRBBooksPage />
+
       <BulkOrder />
       <TestimonialsPage />
       <ProductsHome />
