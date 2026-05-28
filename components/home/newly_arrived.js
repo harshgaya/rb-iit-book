@@ -9,7 +9,7 @@ export default async function NewlyArrived() {
       {/* Header Section */}
       <section className="max-w-6xl mx-auto text-center mb-12">
         <h1 className="text-4xl font-bold text-gray-800 mb-4">
-          Newly Arrived Books
+          Releasing Shortly
         </h1>
         <p className="text-gray-600 text-lg">
           {
