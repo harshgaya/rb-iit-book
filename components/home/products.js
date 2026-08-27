@@ -1,9 +1,11 @@
-import { getHomepageProducts } from "@/lib/api/api";
+import { getHomeData } from "@/lib/server/bookService";
+import { serialize } from "@/lib/server/serialize";
 import ProductTile from "../product/product-tile";
 import ExploreAll from "./explore-all";
 
 export default async function ProductsHome() {
-  const populaRPooks = await getHomepageProducts();
+  const home = await getHomeData();
+  const populaRPooks = serialize(home?.homepageProducts || []);
   return (
     <main className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 py-16 px-6">
       {/* Header Section */}

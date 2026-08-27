@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { getBanner } from "@/lib/api/api";
+import { getHome } from "@/lib/api/api";
 
 export default function ImageSlider() {
   const [banners, setBanners] = useState([]);
@@ -15,8 +15,8 @@ export default function ImageSlider() {
     const fetchBanners = async () => {
       try {
         setLoading(true);
-        const res = await getBanner();
-        console.log("✅ Banners fetched:", res);
+        const home = await getHome();
+        const res = home?.banners || [];
 
         if (Array.isArray(res) && res.length > 0) {
           setBanners(res);

@@ -1,8 +1,10 @@
 import Product from "@/components/product/product";
-import { getProductById } from "@/lib/api/api";
+import { getBookById } from "@/lib/server/bookService";
+import { serialize } from "@/lib/server/serialize";
 
 export default async function ProductPage({ params }) {
-  const product = await getProductById({ product_id: params.slug });
+  const { slug } = await params;
+  const product = await getBookById(slug);
 
-  return <Product book={product} />;
+  return <Product book={product ? serialize(product) : null} />;
 }

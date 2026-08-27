@@ -3,13 +3,13 @@ import "./globals.css";
 import Footer from "@/components/navigation/footer";
 import TopHeader from "@/components/navigation/top-header";
 import Navbar from "@/components/navigation/navbar";
-import { CartProvider } from "@/context/cart-context";
 import { Toaster } from "react-hot-toast";
 import FloatingWhatsAppButton from "@/components/navigation/floating_whatsapp_button";
 import ClientTracker from "@/components/navigation/client-track";
 import FloatingContactButtons from "@/components/navigation/floating-button";
 import PixelInit from "@/components/home/pixel-init";
 import { Analytics } from "@vercel/analytics/next";
+import SiteChrome from "@/components/navigation/site-chrome";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -74,21 +74,22 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased text-black`}
       >
         <PixelInit />
-        <CartProvider>
-          <TopHeader />
+        <SiteChrome
+          topHeader={<TopHeader />}
+          navbar={<Navbar />}
+          footer={<Footer />}
+        >
           <ClientTracker />
-          <Navbar />
           {children}
           <FloatingContactButtons />
           <Toaster
             position="bottom-center"
             reverseOrder={false} // newer toasts appear below older ones
           />
-          <Footer />
-        </CartProvider>
+        </SiteChrome>
         <Analytics />
       </body>
     </html>

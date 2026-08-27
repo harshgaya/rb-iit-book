@@ -16,8 +16,6 @@ import {
 } from "react-icons/fi";
 import { BsWhatsapp, BsFillPatchCheckFill } from "react-icons/bs";
 import { SiFlipkart, SiAmazon } from "react-icons/si";
-import { useCart } from "@/context/cart-context";
-import { getUserSession } from "@/lib/utils/action";
 import { websiteTrack } from "@/lib/api/api";
 import Spinner from "../utils/spinner";
 import ImageGallery from "./image-galler";
@@ -32,9 +30,7 @@ const TRUST_BADGES = [
 export default function Product({ book }) {
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [cartLoading, setCartLoading] = useState(false);
   const router = useRouter();
-  const cart = useCart();
 
   const increase = () => setQuantity((q) => q + 1);
   const decrease = () => setQuantity((q) => (q > 1 ? q - 1 : 1));
@@ -55,18 +51,6 @@ export default function Product({ book }) {
     websiteTrack({ type: "purchase_click" });
     const msg = `Hello Sir,\nI want to order *${book.title}* × ${quantity}`;
     router.push(`https://wa.me/919030565621?text=${encodeURIComponent(msg)}`);
-  }
-
-  async function handleAddToCart(e) {
-    e?.stopPropagation();
-    setCartLoading(true);
-    const session = await getUserSession();
-    if (session.token) {
-      cart.addToCart(book._id);
-    } else {
-      router.push("/sign-in");
-    }
-    setCartLoading(false);
   }
 
   if (!book) {

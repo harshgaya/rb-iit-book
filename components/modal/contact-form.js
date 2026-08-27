@@ -13,13 +13,14 @@ export default function ContactForm({ onClose }) {
     // Honeypot check (spam protection)
     if (form.get("company")?.toString().trim()) return;
 
+    const subject = form.get("subject")?.toString().trim();
+    const rawMessage = form.get("message")?.toString().trim();
     const payload = {
+      source: "bulk-order",
       name: form.get("name")?.toString().trim(),
       email: form.get("email")?.toString().trim(),
       phone: form.get("phone")?.toString().trim(),
-      subject: form.get("subject")?.toString().trim(),
-      message: form.get("message")?.toString().trim(),
-      type: "bulk-order",
+      message: subject ? `[${subject}] ${rawMessage}` : rawMessage,
     };
 
     // ✅ Validation
@@ -27,8 +28,8 @@ export default function ContactForm({ onClose }) {
       !payload.name ||
       !payload.email ||
       !payload.phone ||
-      !payload.subject ||
-      !payload.message
+      !subject ||
+      !rawMessage
     ) {
       setStatus({
         loading: false,
@@ -41,7 +42,7 @@ export default function ContactForm({ onClose }) {
     try {
       setStatus({ loading: true, ok: null, msg: "" });
 
-      const res = await fetch("/api/contact", {
+      const res = await fetch("/api/leads", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -49,8 +50,8 @@ export default function ContactForm({ onClose }) {
 
       const data = await res.json();
 
-      if (!res.ok || data.ok === false)
-        throw new Error(data.error || "Request failed");
+      if (!res.ok)
+        throw new Error(data.message || "Request failed");
 
       // ✅ Reset form safely
       formEl.reset();

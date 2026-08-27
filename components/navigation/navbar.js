@@ -20,14 +20,14 @@ export default function Navbar() {
       { name: "Class 10", href: "/products/class-10" },
     ],
     IIT: [
-      { name: "Physics", href: "/products?search=physics" },
-      { name: "Chemistry", href: "/products?search=chemistry" },
-      { name: "Maths", href: "/products?search=math" },
+      { name: "Physics", href: "/products?subject=physics&category=iit" },
+      { name: "Chemistry", href: "/products?subject=chemistry&category=iit" },
+      { name: "Maths", href: "/products?subject=maths&category=iit" },
     ],
     Olympiad: [
-      { name: "Physics", href: "/products?search=olympiad" },
-      { name: "Chemistry", href: "/products?search=olympiad" },
-      { name: "Maths", href: "/products?search=olympiad" },
+      { name: "Physics", href: "/products?subject=physics&category=olympiad" },
+      { name: "Chemistry", href: "/products?subject=chemistry&category=olympiad" },
+      { name: "Maths", href: "/products?subject=maths&category=olympiad" },
     ],
     "Books Index": [
       { name: "Class 6", href: "/contents/class-6.pdf" },
